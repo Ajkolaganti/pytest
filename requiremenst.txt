@@ -1,0 +1,34 @@
+Create a complete Python automation testing project using Pytest for a GraphQL backend API hosted at:
+
+https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
+
+## Requirements:
+
+1. Authenticate using Microsoft Entra ID (Azure AD) using MSAL.
+   - Use client credentials flow (client_id, client_secret, tenant_id, scope).
+   - Generate a bearer token and send it in the `Authorization` header.
+
+2. Include 16 different GraphQL queries located in a folder named `graphql_queries/`, each in its own `.graphql` file.
+
+3. Run a parameterized Pytest test that loads each query from file and validates that:
+   - The response contains either `data` or `errors`.
+   - If `data` is present, it must be a dictionary.
+   - If `errors` is present, it must be a list.
+
+4. Generate an HTML report after tests using `pytest-html`.
+
+5. Add a fixture in `conftest.py` that initializes a reusable `GraphQLClient` with bearer token headers.
+
+6. Use `requests` library for HTTP requests.
+
+8. Include the `azure-pipelines.yml` file that:
+   - Runs on every commit to main branch.
+   - Installs Python, dependencies.
+   - Injects secrets from Azure DevOps library.
+   - Runs `pytest` and generates `report.html`.
+
+9. Use `.env` support for local development. Use `python-dotenv` for loading local secrets.
+
+10. Ensure graceful error handling if access token fails or response is invalid.
+
+Output full project with working code for all files.
