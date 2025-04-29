@@ -9,19 +9,19 @@ def get_query_files():
         return []
     return [f for f in os.listdir(query_dir) if f.endswith('.graphql')]
 
-def is_work_environment():
-    """Check if we're in the work environment by trying to access the API."""
-    try:
-        response = requests.get(os.getenv('API_URL'), verify=False)
-        return response.status_code != 403
-    except:
-        return False
+# def is_work_environment():
+#     """Check if we're in the work environment by trying to access the API."""
+#     try:
+#         response = requests.get(os.getenv('API_URL'), verify=False)
+#         return response.status_code != 403
+#     except:
+#         return False
 
-# Skip all tests if not in work environment
-pytestmark = pytest.mark.skipif(
-    not is_work_environment(),
-    reason="Tests can only be run from work environment due to IP restrictions"
-)
+# # Skip all tests if not in work environment
+# pytestmark = pytest.mark.skipif(
+#     not is_work_environment(),
+#     reason="Tests can only be run from work environment due to IP restrictions"
+# )
 
 @pytest.mark.parametrize('query_file', get_query_files())
 def test_graphql_query(graphql_client, load_query, query_file):

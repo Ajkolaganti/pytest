@@ -14,20 +14,39 @@ class GraphQLClient:
         if not self.bearer_token:
             raise ValueError("Missing BEARER_TOKEN in environment variables")
             
+        # Add Bearer prefix if not present
+        if not self.bearer_token.startswith('Bearer '):
+            self.bearer_token = f'Bearer {self.bearer_token}'
+            
         self.session = requests.Session()
+        
+        # Set cookies that appear to be required
+        self.session.cookies.set(
+            'ARRAffinity',
+            '7d577d29f8e00b2374ddb413016b2f6617c84445e3b963399a9d336135481e13',
+            domain='azurewebsites.net'
+        )
+        self.session.cookies.set(
+            'ARRAffinitySameSite',
+            '7d577d29f8e00b2374ddb413016b2f6617c84445e3b963399a9d336135481e13',
+            domain='azurewebsites.net'
+        )
+        
+        # Update headers to match the curl example exactly
         self.session.headers.update({
-            'Authorization': f'Bearer {self.bearer_token}',
+            'Authorization': self.bearer_token,
             'Content-Type': 'application/json',
         })
+        
         # Disable SSL verification for testing
         self.session.verify = False
         # Suppress SSL warnings
         requests.packages.urllib3.disable_warnings()
 
     def execute_query(self, query, variables=None):
+        # Format the payload exactly like the curl example
         payload = {
-            'query': query,
-            'variables': variables or {}
+            'query': f"query {query}"  # Add 'query' keyword if not present
         }
         
         # Log the request details
@@ -37,10 +56,13 @@ class GraphQLClient:
         for key, value in self.session.headers.items():
             # Hide the actual token value
             if key == 'Authorization':
-                print(f"{key}: Bearer <token-hidden>")
+                print(f"{key}: <token-hidden>")
             else:
                 print(f"{key}: {value}")
-        print("\nQuery:")
+        print("\nCookies:")
+        for cookie in self.session.cookies:
+            print(f"{cookie.name}: {cookie.value}")
+        print("\nRequest Payload:")
         print(json.dumps(payload, indent=2))
         
         try:
@@ -53,25 +75,38 @@ class GraphQLClient:
             for key, value in response.headers.items():
                 print(f"{key}: {value}")
             print("\nResponse Body:")
+            
+            # Try to parse and format JSON response
             try:
-                print(json.dumps(response.json(), indent=2))
-            except:
+                response_json = response.json()
+                print(json.dumps(response_json, indent=2))
+                
+                # Handle GraphQL errors
+                if 'errors' in response_json:
+                    print("\nGraphQL Errors:")
+                    for error in response_json['errors']:
+                        print(f"- {error.get('message', str(error))}")
+                        if 'locations' in error:
+                            print(f"  Location: {error['locations']}")
+                        if 'path' in error:
+                            print(f"  Path: {error['path']}")
+                
+            except json.JSONDecodeError:
+                print("Raw response (not JSON):")
                 print(response.text)
-                
-            # Handle 403 Forbidden specifically
-            if response.status_code == 403:
-                print("\nAccess Forbidden - Possible causes:")
-                print("1. IP address not whitelisted")
-                print("2. Invalid or expired bearer token")
-                print("3. Insufficient permissions")
-                
+            
             response.raise_for_status()
             return response.json()
             
         except requests.exceptions.RequestException as e:
-            print(f"\nError: {str(e)}")
+            print(f"\nRequest Error: {str(e)}")
             if hasattr(e, 'response') and e.response is not None:
-                print(f"Response text: {e.response.text}")
+                try:
+                    error_json = e.response.json()
+                    print("Error details:")
+                    print(json.dumps(error_json, indent=2))
+                except:
+                    print(f"Raw error response: {e.response.text}")
             raise
 
 @pytest.fixture(scope="session")
