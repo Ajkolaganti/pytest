@@ -1,5 +1,4 @@
-
-(.venv) PS C:\Users\SaiKrishna\PycharmProjects\pytestgit\newPytest\pytest> pytest
+git\newPytest\pytest> pytest
 ========================================================================================================== test session starts ==========================================================================================================
 platform win32 -- Python 3.11.9, pytest-8.0.0, pluggy-1.5.0
 rootdir: C:\Users\SaiKrishna\PycharmProjects\pytestgit\newPytest\pytest
@@ -12,7 +11,7 @@ tests\test_counterparties.py F                                                  
 =============================================================================================================== FAILURES ================================================================================================================
 ____________________________________________________________________________________________ test_graphql_query[get_counterparties.graphql] _____________________________________________________________________________________________
 
-graphql_client = <conftest.GraphQLClient object at 0x000002DDF25BC6D0>, load_query = <function load_query.<locals>._load_query at 0x000002DDF25FB600>, query_file = 'get_counterparties.graphql'
+graphql_client = <conftest.GraphQLClient object at 0x000001DE5086A710>, load_query = <function load_query.<locals>._load_query at 0x000001DE52DC76A0>, query_file = 'get_counterparties.graphql'
 
     @pytest.mark.parametrize('query_file', get_query_files())
     def test_graphql_query(graphql_client, load_query, query_file):
@@ -26,11 +25,11 @@ graphql_client = <conftest.GraphQLClient object at 0x000002DDF25BC6D0>, load_que
 
 test_graphql_queries.py:34:
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-conftest.py:98: in execute_query
+conftest.py:100: in execute_query
     response.raise_for_status()
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-self = <Response [500]>
+self = <Response [401]>
 
     def raise_for_status(self):
         """Raises :class:`HTTPError`, if one occurred."""
@@ -60,13 +59,13 @@ self = <Response [500]>
 
         if http_error_msg:
 >           raise HTTPError(http_error_msg, response=self)
-E           requests.exceptions.HTTPError: 500 Server Error: Internal Server Error for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
+E           requests.exceptions.HTTPError: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
 
 ..\..\pytest\.venv\Lib\site-packages\requests\models.py:1021: HTTPError
 
 During handling of the above exception, another exception occurred:
 
-graphql_client = <conftest.GraphQLClient object at 0x000002DDF25BC6D0>, load_query = <function load_query.<locals>._load_query at 0x000002DDF25FB600>, query_file = 'get_counterparties.graphql'
+graphql_client = <conftest.GraphQLClient object at 0x000001DE5086A710>, load_query = <function load_query.<locals>._load_query at 0x000001DE52DC76A0>, query_file = 'get_counterparties.graphql'
 
     @pytest.mark.parametrize('query_file', get_query_files())
     def test_graphql_query(graphql_client, load_query, query_file):
@@ -95,7 +94,7 @@ graphql_client = <conftest.GraphQLClient object at 0x000002DDF25BC6D0>, load_que
 
         except Exception as e:
 >           pytest.fail(f"Query {query_file} failed with error: {str(e)}")
-E           Failed: Query get_counterparties.graphql failed with error: 500 Server Error: Internal Server Error for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
+E           Failed: Query get_counterparties.graphql failed with error: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
 
 test_graphql_queries.py:52: Failed
 --------------------------------------------------------------------------------------------------------- Captured stdout call ----------------------------------------------------------------------------------------------------------
@@ -123,83 +122,23 @@ terpartyEmailAddress\n      counterpartyId\n      counterpartyName\n      create
 }
 
 === GraphQL Response ===
-Status Code: 500
+Status Code: 401
 Response Headers:
-Content-Type: text/plain; charset=utf-8
-Date: Tue, 29 Apr 2025 23:41:31 GMT
+Content-Length: 0
+Date: Tue, 29 Apr 2025 23:50:49 GMT
 Server: Microsoft-IIS/10.0
-Transfer-Encoding: chunked
+Request-Context: appId=cid-v1:59368e04-2e6f-4086-9672-604d4ac2de56
 X-Powered-By: ASP.NET
 
 Response Body:
 Raw response (not JSON):
-Microsoft.IdentityModel.Tokens.SecurityTokenMalformedException: IDX12709: CanReadToken() returned false. JWT is not well formed.
-The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EncodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
-   at System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.ReadJwtToken(String token)
-   at MSRSubservicerInvoice_API.Middleware.AuthenticationMiddleware.InvokeAsync(HttpContext context, LADMSDbContext _dbContext) in D:\a\1\s\MSRSubservicerInvoice-API\Middleware\AuthenticationMiddleware.cs:line 28
-   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
-   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
-
-HEADERS
-=======
-Accept: */*
-Accept-Encoding: gzip, deflate
-Authorization: Bearer your_bearer_token_here
-Content-Length: 1010
-Content-Type: application/json
-Cookie: ARRAffinity=7d577d29f8e00b2374ddb413016b2f6617c84445e3b963399a9d336135481e13; ARRAffinitySameSite=7d577d29f8e00b2374ddb413016b2f6617c84445e3b963399a9d336135481e13
-Host: lv-sub-inv-dev-appsvc.azurewebsites.net
-Max-Forwards: 10
-User-Agent: python-requests/2.31.0
-X-ARR-LOG-ID: 785fe3a2-3341-44ef-9beb-810338fa6b33
-CLIENT-IP: [fd40:6269:121:7532:6d21:100:c0a8:205a]:65360
-DISGUISED-HOST: lv-sub-inv-dev-appsvc.azurewebsites.net
-X-SITE-DEPLOYMENT-ID: lv-sub-inv-dev-appsvc
-WAS-DEFAULT-HOSTNAME: lv-sub-inv-dev-appsvc.azurewebsites.net
-X-Forwarded-Proto: https
-X-AppService-Proto: https
-X-ARR-SSL: 2048|256|CN=Microsoft Azure RSA TLS Issuing CA 04, O=Microsoft Corporation, C=US|CN=*.azurewebsites.net, O=Microsoft Corporation, L=Redmond, S=WA, C=US
-X-Forwarded-TlsVersion: 1.3
-X-Forwarded-For: 192.168.32.90
-X-Original-URL: /subinvapi/graphql/
-X-WAWS-Unencoded-URL: /subinvapi/graphql/
 
 
-Request Error: 500 Server Error: Internal Server Error for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
-Raw error response: Microsoft.IdentityModel.Tokens.SecurityTokenMalformedException: IDX12709: CanReadToken() returned false. JWT is not well formed.
-The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EncodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
-   at System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.ReadJwtToken(String token)
-   at MSRSubservicerInvoice_API.Middleware.AuthenticationMiddleware.InvokeAsync(HttpContext context, LADMSDbContext _dbContext) in D:\a\1\s\MSRSubservicerInvoice-API\Middleware\AuthenticationMiddleware.cs:line 28
-   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
-   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
-
-HEADERS
-=======
-Accept: */*
-Accept-Encoding: gzip, deflate
-Authorization: Bearer your_bearer_token_here
-Content-Length: 1010
-Content-Type: application/json
-Cookie: ARRAffinity=7d577d29f8e00b2374ddb413016b2f6617c84445e3b963399a9d336135481e13; ARRAffinitySameSite=7d577d29f8e00b2374ddb413016b2f6617c84445e3b963399a9d336135481e13
-Host: lv-sub-inv-dev-appsvc.azurewebsites.net
-Max-Forwards: 10
-User-Agent: python-requests/2.31.0
-X-ARR-LOG-ID: 785fe3a2-3341-44ef-9beb-810338fa6b33
-CLIENT-IP: [fd40:6269:121:7532:6d21:100:c0a8:205a]:65360
-DISGUISED-HOST: lv-sub-inv-dev-appsvc.azurewebsites.net
-X-SITE-DEPLOYMENT-ID: lv-sub-inv-dev-appsvc
-WAS-DEFAULT-HOSTNAME: lv-sub-inv-dev-appsvc.azurewebsites.net
-X-Forwarded-Proto: https
-X-AppService-Proto: https
-X-ARR-SSL: 2048|256|CN=Microsoft Azure RSA TLS Issuing CA 04, O=Microsoft Corporation, C=US|CN=*.azurewebsites.net, O=Microsoft Corporation, L=Redmond, S=WA, C=US
-X-Forwarded-TlsVersion: 1.3
-X-Forwarded-For: 192.168.32.90
-X-Original-URL: /subinvapi/graphql/
-X-WAWS-Unencoded-URL: /subinvapi/graphql/
-
+Request Error: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
+Raw error response:
 ____________________________________________________________________________________________ test_graphql_query[get_expense_details.graphql] ____________________________________________________________________________________________
 
-graphql_client = <conftest.GraphQLClient object at 0x000002DDF25BC6D0>, load_query = <function load_query.<locals>._load_query at 0x000002DDF266FCE0>, query_file = 'get_expense_details.graphql'
+graphql_client = <conftest.GraphQLClient object at 0x000001DE5086A710>, load_query = <function load_query.<locals>._load_query at 0x000001DE52E3FE20>, query_file = 'get_expense_details.graphql'
 
     @pytest.mark.parametrize('query_file', get_query_files())
     def test_graphql_query(graphql_client, load_query, query_file):
@@ -213,11 +152,11 @@ graphql_client = <conftest.GraphQLClient object at 0x000002DDF25BC6D0>, load_que
 
 test_graphql_queries.py:34:
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-conftest.py:98: in execute_query
+conftest.py:100: in execute_query
     response.raise_for_status()
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-self = <Response [500]>
+self = <Response [401]>
 
     def raise_for_status(self):
         """Raises :class:`HTTPError`, if one occurred."""
@@ -247,13 +186,13 @@ self = <Response [500]>
 
         if http_error_msg:
 >           raise HTTPError(http_error_msg, response=self)
-E           requests.exceptions.HTTPError: 500 Server Error: Internal Server Error for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
+E           requests.exceptions.HTTPError: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
 
 ..\..\pytest\.venv\Lib\site-packages\requests\models.py:1021: HTTPError
 
 During handling of the above exception, another exception occurred:
 
-graphql_client = <conftest.GraphQLClient object at 0x000002DDF25BC6D0>, load_query = <function load_query.<locals>._load_query at 0x000002DDF266FCE0>, query_file = 'get_expense_details.graphql'
+graphql_client = <conftest.GraphQLClient object at 0x000001DE5086A710>, load_query = <function load_query.<locals>._load_query at 0x000001DE52E3FE20>, query_file = 'get_expense_details.graphql'
 
     @pytest.mark.parametrize('query_file', get_query_files())
     def test_graphql_query(graphql_client, load_query, query_file):
@@ -282,7 +221,7 @@ graphql_client = <conftest.GraphQLClient object at 0x000002DDF25BC6D0>, load_que
 
         except Exception as e:
 >           pytest.fail(f"Query {query_file} failed with error: {str(e)}")
-E           Failed: Query get_expense_details.graphql failed with error: 500 Server Error: Internal Server Error for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
+E           Failed: Query get_expense_details.graphql failed with error: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
 
 test_graphql_queries.py:52: Failed
 --------------------------------------------------------------------------------------------------------- Captured stdout call ----------------------------------------------------------------------------------------------------------
@@ -303,87 +242,27 @@ ARRAffinitySameSite: 7d577d29f8e00b2374ddb413016b2f6617c84445e3b963399a9d3361354
 
 Request Payload:
 {
-  "query": "query query GetExpenseDetails {\n  expenseDetails(\n    invoiceDate: null\n    first: null\n    after: null\n    last: null\n    before: null\n    where: null\n    order: null\n  ) {\n    totalCount\n  }\n}"
+  "query": "query GetExpenseDetails {\n  expenseDetails(\n    invoiceDate: null\n    first: null\n    after: null\n    last: null\n    before: null\n    where: null\n    order: null\n  ) {\n    totalCount\n  }\n}"
 }
 
 === GraphQL Response ===
-Status Code: 500
+Status Code: 401
 Response Headers:
-Content-Type: text/plain; charset=utf-8
-Date: Tue, 29 Apr 2025 23:41:31 GMT
+Content-Length: 0
+Date: Tue, 29 Apr 2025 23:50:50 GMT
 Server: Microsoft-IIS/10.0
-Transfer-Encoding: chunked
+Request-Context: appId=cid-v1:59368e04-2e6f-4086-9672-604d4ac2de56
 X-Powered-By: ASP.NET
 
 Response Body:
 Raw response (not JSON):
-Microsoft.IdentityModel.Tokens.SecurityTokenMalformedException: IDX12709: CanReadToken() returned false. JWT is not well formed.
-The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EncodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
-   at System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.ReadJwtToken(String token)
-   at MSRSubservicerInvoice_API.Middleware.AuthenticationMiddleware.InvokeAsync(HttpContext context, LADMSDbContext _dbContext) in D:\a\1\s\MSRSubservicerInvoice-API\Middleware\AuthenticationMiddleware.cs:line 28
-   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
-   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
-
-HEADERS
-=======
-Accept: */*
-Accept-Encoding: gzip, deflate
-Authorization: Bearer your_bearer_token_here
-Content-Length: 219
-Content-Type: application/json
-Cookie: ARRAffinity=7d577d29f8e00b2374ddb413016b2f6617c84445e3b963399a9d336135481e13; ARRAffinitySameSite=7d577d29f8e00b2374ddb413016b2f6617c84445e3b963399a9d336135481e13
-Host: lv-sub-inv-dev-appsvc.azurewebsites.net
-Max-Forwards: 10
-User-Agent: python-requests/2.31.0
-X-ARR-LOG-ID: 4d2b214f-13ca-4e8a-9e4b-84edf979b7a9
-CLIENT-IP: [fd40:6269:121:7532:6d21:100:c0a8:205a]:65360
-DISGUISED-HOST: lv-sub-inv-dev-appsvc.azurewebsites.net
-X-SITE-DEPLOYMENT-ID: lv-sub-inv-dev-appsvc
-WAS-DEFAULT-HOSTNAME: lv-sub-inv-dev-appsvc.azurewebsites.net
-X-Forwarded-Proto: https
-X-AppService-Proto: https
-X-ARR-SSL: 2048|256|CN=Microsoft Azure RSA TLS Issuing CA 04, O=Microsoft Corporation, C=US|CN=*.azurewebsites.net, O=Microsoft Corporation, L=Redmond, S=WA, C=US
-X-Forwarded-TlsVersion: 1.3
-X-Forwarded-For: 192.168.32.90
-X-Original-URL: /subinvapi/graphql/
-X-WAWS-Unencoded-URL: /subinvapi/graphql/
 
 
-Request Error: 500 Server Error: Internal Server Error for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
-Raw error response: Microsoft.IdentityModel.Tokens.SecurityTokenMalformedException: IDX12709: CanReadToken() returned false. JWT is not well formed.
-The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EncodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
-   at System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.ReadJwtToken(String token)
-   at MSRSubservicerInvoice_API.Middleware.AuthenticationMiddleware.InvokeAsync(HttpContext context, LADMSDbContext _dbContext) in D:\a\1\s\MSRSubservicerInvoice-API\Middleware\AuthenticationMiddleware.cs:line 28
-   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
-   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
-
-HEADERS
-=======
-Accept: */*
-Accept-Encoding: gzip, deflate
-Authorization: Bearer your_bearer_token_here
-Content-Length: 219
-Content-Type: application/json
-Cookie: ARRAffinity=7d577d29f8e00b2374ddb413016b2f6617c84445e3b963399a9d336135481e13; ARRAffinitySameSite=7d577d29f8e00b2374ddb413016b2f6617c84445e3b963399a9d336135481e13
-Host: lv-sub-inv-dev-appsvc.azurewebsites.net
-Max-Forwards: 10
-User-Agent: python-requests/2.31.0
-X-ARR-LOG-ID: 4d2b214f-13ca-4e8a-9e4b-84edf979b7a9
-CLIENT-IP: [fd40:6269:121:7532:6d21:100:c0a8:205a]:65360
-DISGUISED-HOST: lv-sub-inv-dev-appsvc.azurewebsites.net
-X-SITE-DEPLOYMENT-ID: lv-sub-inv-dev-appsvc
-WAS-DEFAULT-HOSTNAME: lv-sub-inv-dev-appsvc.azurewebsites.net
-X-Forwarded-Proto: https
-X-AppService-Proto: https
-X-ARR-SSL: 2048|256|CN=Microsoft Azure RSA TLS Issuing CA 04, O=Microsoft Corporation, C=US|CN=*.azurewebsites.net, O=Microsoft Corporation, L=Redmond, S=WA, C=US
-X-Forwarded-TlsVersion: 1.3
-X-Forwarded-For: 192.168.32.90
-X-Original-URL: /subinvapi/graphql/
-X-WAWS-Unencoded-URL: /subinvapi/graphql/
-
+Request Error: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
+Raw error response:
 _______________________________________________________________________________________________ test_graphql_query[get_inventory.graphql] _______________________________________________________________________________________________
 
-graphql_client = <conftest.GraphQLClient object at 0x000002DDF25BC6D0>, load_query = <function load_query.<locals>._load_query at 0x000002DDF25FB420>, query_file = 'get_inventory.graphql'
+graphql_client = <conftest.GraphQLClient object at 0x000001DE5086A710>, load_query = <function load_query.<locals>._load_query at 0x000001DE52DC74C0>, query_file = 'get_inventory.graphql'
 
     @pytest.mark.parametrize('query_file', get_query_files())
     def test_graphql_query(graphql_client, load_query, query_file):
@@ -397,11 +276,11 @@ graphql_client = <conftest.GraphQLClient object at 0x000002DDF25BC6D0>, load_que
 
 test_graphql_queries.py:34:
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-conftest.py:98: in execute_query
+conftest.py:100: in execute_query
     response.raise_for_status()
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-self = <Response [500]>
+self = <Response [401]>
 
     def raise_for_status(self):
         """Raises :class:`HTTPError`, if one occurred."""
@@ -431,13 +310,13 @@ self = <Response [500]>
 
         if http_error_msg:
 >           raise HTTPError(http_error_msg, response=self)
-E           requests.exceptions.HTTPError: 500 Server Error: Internal Server Error for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
+E           requests.exceptions.HTTPError: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
 
 ..\..\pytest\.venv\Lib\site-packages\requests\models.py:1021: HTTPError
 
 During handling of the above exception, another exception occurred:
 
-graphql_client = <conftest.GraphQLClient object at 0x000002DDF25BC6D0>, load_query = <function load_query.<locals>._load_query at 0x000002DDF25FB420>, query_file = 'get_inventory.graphql'
+graphql_client = <conftest.GraphQLClient object at 0x000001DE5086A710>, load_query = <function load_query.<locals>._load_query at 0x000001DE52DC74C0>, query_file = 'get_inventory.graphql'
 
     @pytest.mark.parametrize('query_file', get_query_files())
     def test_graphql_query(graphql_client, load_query, query_file):
@@ -466,7 +345,7 @@ graphql_client = <conftest.GraphQLClient object at 0x000002DDF25BC6D0>, load_que
 
         except Exception as e:
 >           pytest.fail(f"Query {query_file} failed with error: {str(e)}")
-E           Failed: Query get_inventory.graphql failed with error: 500 Server Error: Internal Server Error for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
+E           Failed: Query get_inventory.graphql failed with error: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
 
 test_graphql_queries.py:52: Failed
 --------------------------------------------------------------------------------------------------------- Captured stdout call ----------------------------------------------------------------------------------------------------------
@@ -487,87 +366,27 @@ ARRAffinitySameSite: 7d577d29f8e00b2374ddb413016b2f6617c84445e3b963399a9d3361354
 
 Request Payload:
 {
-  "query": "query query GetInventory {\n  inventory {\n    items {\n      id\n      name\n      quantity\n      location\n    }\n  }\n}"
+  "query": "query GetInventory {\n  inventory {\n    items {\n      id\n      name\n      quantity\n      location\n    }\n  }\n}"
 }
 
 === GraphQL Response ===
-Status Code: 500
+Status Code: 401
 Response Headers:
-Content-Type: text/plain; charset=utf-8
-Date: Tue, 29 Apr 2025 23:41:31 GMT
+Content-Length: 0
+Date: Tue, 29 Apr 2025 23:50:50 GMT
 Server: Microsoft-IIS/10.0
-Transfer-Encoding: chunked
+Request-Context: appId=cid-v1:59368e04-2e6f-4086-9672-604d4ac2de56
 X-Powered-By: ASP.NET
 
 Response Body:
 Raw response (not JSON):
-Microsoft.IdentityModel.Tokens.SecurityTokenMalformedException: IDX12709: CanReadToken() returned false. JWT is not well formed.
-The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EncodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
-   at System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.ReadJwtToken(String token)
-   at MSRSubservicerInvoice_API.Middleware.AuthenticationMiddleware.InvokeAsync(HttpContext context, LADMSDbContext _dbContext) in D:\a\1\s\MSRSubservicerInvoice-API\Middleware\AuthenticationMiddleware.cs:line 28
-   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
-   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
-
-HEADERS
-=======
-Accept: */*
-Accept-Encoding: gzip, deflate
-Authorization: Bearer your_bearer_token_here
-Content-Length: 136
-Content-Type: application/json
-Cookie: ARRAffinity=7d577d29f8e00b2374ddb413016b2f6617c84445e3b963399a9d336135481e13; ARRAffinitySameSite=7d577d29f8e00b2374ddb413016b2f6617c84445e3b963399a9d336135481e13
-Host: lv-sub-inv-dev-appsvc.azurewebsites.net
-Max-Forwards: 10
-User-Agent: python-requests/2.31.0
-X-ARR-LOG-ID: 8e1899c5-a12d-4dff-910e-884ab74fd3fa
-CLIENT-IP: [fd40:6269:121:7532:6d21:100:c0a8:205a]:65360
-DISGUISED-HOST: lv-sub-inv-dev-appsvc.azurewebsites.net
-X-SITE-DEPLOYMENT-ID: lv-sub-inv-dev-appsvc
-WAS-DEFAULT-HOSTNAME: lv-sub-inv-dev-appsvc.azurewebsites.net
-X-Forwarded-Proto: https
-X-AppService-Proto: https
-X-ARR-SSL: 2048|256|CN=Microsoft Azure RSA TLS Issuing CA 04, O=Microsoft Corporation, C=US|CN=*.azurewebsites.net, O=Microsoft Corporation, L=Redmond, S=WA, C=US
-X-Forwarded-TlsVersion: 1.3
-X-Forwarded-For: 192.168.32.90
-X-Original-URL: /subinvapi/graphql/
-X-WAWS-Unencoded-URL: /subinvapi/graphql/
 
 
-Request Error: 500 Server Error: Internal Server Error for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
-Raw error response: Microsoft.IdentityModel.Tokens.SecurityTokenMalformedException: IDX12709: CanReadToken() returned false. JWT is not well formed.
-The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EncodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
-   at System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.ReadJwtToken(String token)
-   at MSRSubservicerInvoice_API.Middleware.AuthenticationMiddleware.InvokeAsync(HttpContext context, LADMSDbContext _dbContext) in D:\a\1\s\MSRSubservicerInvoice-API\Middleware\AuthenticationMiddleware.cs:line 28
-   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
-   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
-
-HEADERS
-=======
-Accept: */*
-Accept-Encoding: gzip, deflate
-Authorization: Bearer your_bearer_token_here
-Content-Length: 136
-Content-Type: application/json
-Cookie: ARRAffinity=7d577d29f8e00b2374ddb413016b2f6617c84445e3b963399a9d336135481e13; ARRAffinitySameSite=7d577d29f8e00b2374ddb413016b2f6617c84445e3b963399a9d336135481e13
-Host: lv-sub-inv-dev-appsvc.azurewebsites.net
-Max-Forwards: 10
-User-Agent: python-requests/2.31.0
-X-ARR-LOG-ID: 8e1899c5-a12d-4dff-910e-884ab74fd3fa
-CLIENT-IP: [fd40:6269:121:7532:6d21:100:c0a8:205a]:65360
-DISGUISED-HOST: lv-sub-inv-dev-appsvc.azurewebsites.net
-X-SITE-DEPLOYMENT-ID: lv-sub-inv-dev-appsvc
-WAS-DEFAULT-HOSTNAME: lv-sub-inv-dev-appsvc.azurewebsites.net
-X-Forwarded-Proto: https
-X-AppService-Proto: https
-X-ARR-SSL: 2048|256|CN=Microsoft Azure RSA TLS Issuing CA 04, O=Microsoft Corporation, C=US|CN=*.azurewebsites.net, O=Microsoft Corporation, L=Redmond, S=WA, C=US
-X-Forwarded-TlsVersion: 1.3
-X-Forwarded-For: 192.168.32.90
-X-Original-URL: /subinvapi/graphql/
-X-WAWS-Unencoded-URL: /subinvapi/graphql/
-
+Request Error: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
+Raw error response:
 _________________________________________________________________________________________________ test_graphql_query[get_user.graphql] __________________________________________________________________________________________________
 
-graphql_client = <conftest.GraphQLClient object at 0x000002DDF25BC6D0>, load_query = <function load_query.<locals>._load_query at 0x000002DDF26409A0>, query_file = 'get_user.graphql'
+graphql_client = <conftest.GraphQLClient object at 0x000001DE5086A710>, load_query = <function load_query.<locals>._load_query at 0x000001DE52E0CAE0>, query_file = 'get_user.graphql'
 
     @pytest.mark.parametrize('query_file', get_query_files())
     def test_graphql_query(graphql_client, load_query, query_file):
@@ -581,11 +400,11 @@ graphql_client = <conftest.GraphQLClient object at 0x000002DDF25BC6D0>, load_que
 
 test_graphql_queries.py:34:
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-conftest.py:98: in execute_query
+conftest.py:100: in execute_query
     response.raise_for_status()
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-self = <Response [500]>
+self = <Response [401]>
 
     def raise_for_status(self):
         """Raises :class:`HTTPError`, if one occurred."""
@@ -615,13 +434,13 @@ self = <Response [500]>
 
         if http_error_msg:
 >           raise HTTPError(http_error_msg, response=self)
-E           requests.exceptions.HTTPError: 500 Server Error: Internal Server Error for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
+E           requests.exceptions.HTTPError: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
 
 ..\..\pytest\.venv\Lib\site-packages\requests\models.py:1021: HTTPError
 
 During handling of the above exception, another exception occurred:
 
-graphql_client = <conftest.GraphQLClient object at 0x000002DDF25BC6D0>, load_query = <function load_query.<locals>._load_query at 0x000002DDF26409A0>, query_file = 'get_user.graphql'
+graphql_client = <conftest.GraphQLClient object at 0x000001DE5086A710>, load_query = <function load_query.<locals>._load_query at 0x000001DE52E0CAE0>, query_file = 'get_user.graphql'
 
     @pytest.mark.parametrize('query_file', get_query_files())
     def test_graphql_query(graphql_client, load_query, query_file):
@@ -650,7 +469,7 @@ graphql_client = <conftest.GraphQLClient object at 0x000002DDF25BC6D0>, load_que
 
         except Exception as e:
 >           pytest.fail(f"Query {query_file} failed with error: {str(e)}")
-E           Failed: Query get_user.graphql failed with error: 500 Server Error: Internal Server Error for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
+E           Failed: Query get_user.graphql failed with error: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
 
 test_graphql_queries.py:52: Failed
 --------------------------------------------------------------------------------------------------------- Captured stdout call ----------------------------------------------------------------------------------------------------------
@@ -671,87 +490,27 @@ ARRAffinitySameSite: 7d577d29f8e00b2374ddb413016b2f6617c84445e3b963399a9d3361354
 
 Request Payload:
 {
-  "query": "query query GetUser {\n  user {\n    id\n    name\n    email\n  }\n}"
+  "query": "query GetUser {\n  user {\n    id\n    name\n    email\n  }\n}"
 }
 
 === GraphQL Response ===
-Status Code: 500
+Status Code: 401
 Response Headers:
-Content-Type: text/plain; charset=utf-8
-Date: Tue, 29 Apr 2025 23:41:31 GMT
+Content-Length: 0
+Date: Tue, 29 Apr 2025 23:50:50 GMT
 Server: Microsoft-IIS/10.0
-Transfer-Encoding: chunked
+Request-Context: appId=cid-v1:59368e04-2e6f-4086-9672-604d4ac2de56
 X-Powered-By: ASP.NET
 
 Response Body:
 Raw response (not JSON):
-Microsoft.IdentityModel.Tokens.SecurityTokenMalformedException: IDX12709: CanReadToken() returned false. JWT is not well formed.
-The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EncodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
-   at System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.ReadJwtToken(String token)
-   at MSRSubservicerInvoice_API.Middleware.AuthenticationMiddleware.InvokeAsync(HttpContext context, LADMSDbContext _dbContext) in D:\a\1\s\MSRSubservicerInvoice-API\Middleware\AuthenticationMiddleware.cs:line 28
-   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
-   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
-
-HEADERS
-=======
-Accept: */*
-Accept-Encoding: gzip, deflate
-Authorization: Bearer your_bearer_token_here
-Content-Length: 81
-Content-Type: application/json
-Cookie: ARRAffinity=7d577d29f8e00b2374ddb413016b2f6617c84445e3b963399a9d336135481e13; ARRAffinitySameSite=7d577d29f8e00b2374ddb413016b2f6617c84445e3b963399a9d336135481e13
-Host: lv-sub-inv-dev-appsvc.azurewebsites.net
-Max-Forwards: 10
-User-Agent: python-requests/2.31.0
-X-ARR-LOG-ID: 01d004da-05bd-4bbc-b6a0-f48853d21123
-CLIENT-IP: [fd40:6269:121:7532:6d21:100:c0a8:205a]:65360
-DISGUISED-HOST: lv-sub-inv-dev-appsvc.azurewebsites.net
-X-SITE-DEPLOYMENT-ID: lv-sub-inv-dev-appsvc
-WAS-DEFAULT-HOSTNAME: lv-sub-inv-dev-appsvc.azurewebsites.net
-X-Forwarded-Proto: https
-X-AppService-Proto: https
-X-ARR-SSL: 2048|256|CN=Microsoft Azure RSA TLS Issuing CA 04, O=Microsoft Corporation, C=US|CN=*.azurewebsites.net, O=Microsoft Corporation, L=Redmond, S=WA, C=US
-X-Forwarded-TlsVersion: 1.3
-X-Forwarded-For: 192.168.32.90
-X-Original-URL: /subinvapi/graphql/
-X-WAWS-Unencoded-URL: /subinvapi/graphql/
 
 
-Request Error: 500 Server Error: Internal Server Error for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
-Raw error response: Microsoft.IdentityModel.Tokens.SecurityTokenMalformedException: IDX12709: CanReadToken() returned false. JWT is not well formed.
-The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EncodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
-   at System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.ReadJwtToken(String token)
-   at MSRSubservicerInvoice_API.Middleware.AuthenticationMiddleware.InvokeAsync(HttpContext context, LADMSDbContext _dbContext) in D:\a\1\s\MSRSubservicerInvoice-API\Middleware\AuthenticationMiddleware.cs:line 28
-   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
-   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
-
-HEADERS
-=======
-Accept: */*
-Accept-Encoding: gzip, deflate
-Authorization: Bearer your_bearer_token_here
-Content-Length: 81
-Content-Type: application/json
-Cookie: ARRAffinity=7d577d29f8e00b2374ddb413016b2f6617c84445e3b963399a9d336135481e13; ARRAffinitySameSite=7d577d29f8e00b2374ddb413016b2f6617c84445e3b963399a9d336135481e13
-Host: lv-sub-inv-dev-appsvc.azurewebsites.net
-Max-Forwards: 10
-User-Agent: python-requests/2.31.0
-X-ARR-LOG-ID: 01d004da-05bd-4bbc-b6a0-f48853d21123
-CLIENT-IP: [fd40:6269:121:7532:6d21:100:c0a8:205a]:65360
-DISGUISED-HOST: lv-sub-inv-dev-appsvc.azurewebsites.net
-X-SITE-DEPLOYMENT-ID: lv-sub-inv-dev-appsvc
-WAS-DEFAULT-HOSTNAME: lv-sub-inv-dev-appsvc.azurewebsites.net
-X-Forwarded-Proto: https
-X-AppService-Proto: https
-X-ARR-SSL: 2048|256|CN=Microsoft Azure RSA TLS Issuing CA 04, O=Microsoft Corporation, C=US|CN=*.azurewebsites.net, O=Microsoft Corporation, L=Redmond, S=WA, C=US
-X-Forwarded-TlsVersion: 1.3
-X-Forwarded-For: 192.168.32.90
-X-Original-URL: /subinvapi/graphql/
-X-WAWS-Unencoded-URL: /subinvapi/graphql/
-
+Request Error: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
+Raw error response:
 __________________________________________________________________________________________________________ test_invalid_query ___________________________________________________________________________________________________________
 
-graphql_client = <conftest.GraphQLClient object at 0x000002DDF25BC6D0>
+graphql_client = <conftest.GraphQLClient object at 0x000001DE5086A710>
 
     def test_invalid_query(graphql_client):
         """Test handling of invalid query."""
@@ -761,11 +520,11 @@ graphql_client = <conftest.GraphQLClient object at 0x000002DDF25BC6D0>
 
 test_graphql_queries.py:58:
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-conftest.py:98: in execute_query
+conftest.py:100: in execute_query
     response.raise_for_status()
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-self = <Response [500]>
+self = <Response [401]>
 
     def raise_for_status(self):
         """Raises :class:`HTTPError`, if one occurred."""
@@ -795,7 +554,7 @@ self = <Response [500]>
 
         if http_error_msg:
 >           raise HTTPError(http_error_msg, response=self)
-E           requests.exceptions.HTTPError: 500 Server Error: Internal Server Error for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
+E           requests.exceptions.HTTPError: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
 
 ..\..\pytest\.venv\Lib\site-packages\requests\models.py:1021: HTTPError
 --------------------------------------------------------------------------------------------------------- Captured stdout call ----------------------------------------------------------------------------------------------------------
@@ -820,104 +579,125 @@ Request Payload:
 }
 
 === GraphQL Response ===
-Status Code: 500
+Status Code: 401
 Response Headers:
-Content-Type: text/plain; charset=utf-8
-Date: Tue, 29 Apr 2025 23:41:31 GMT
+Content-Length: 0
+Date: Tue, 29 Apr 2025 23:50:50 GMT
 Server: Microsoft-IIS/10.0
-Transfer-Encoding: chunked
+Request-Context: appId=cid-v1:59368e04-2e6f-4086-9672-604d4ac2de56
 X-Powered-By: ASP.NET
 
 Response Body:
 Raw response (not JSON):
-Microsoft.IdentityModel.Tokens.SecurityTokenMalformedException: IDX12709: CanReadToken() returned false. JWT is not well formed.
-The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EncodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
-   at System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.ReadJwtToken(String token)
-   at MSRSubservicerInvoice_API.Middleware.AuthenticationMiddleware.InvokeAsync(HttpContext context, LADMSDbContext _dbContext) in D:\a\1\s\MSRSubservicerInvoice-API\Middleware\AuthenticationMiddleware.cs:line 28
-   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
-   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
-
-HEADERS
-=======
-Accept: */*
-Accept-Encoding: gzip, deflate
-Authorization: Bearer your_bearer_token_here
-Content-Length: 40
-Content-Type: application/json
-Cookie: ARRAffinity=7d577d29f8e00b2374ddb413016b2f6617c84445e3b963399a9d336135481e13; ARRAffinitySameSite=7d577d29f8e00b2374ddb413016b2f6617c84445e3b963399a9d336135481e13
-Host: lv-sub-inv-dev-appsvc.azurewebsites.net
-Max-Forwards: 10
-User-Agent: python-requests/2.31.0
-X-ARR-LOG-ID: 76585f4f-3e04-4ad3-bff0-06483791a1fb
-CLIENT-IP: [fd40:6269:121:7532:6d21:100:c0a8:205a]:65360
-DISGUISED-HOST: lv-sub-inv-dev-appsvc.azurewebsites.net
-X-SITE-DEPLOYMENT-ID: lv-sub-inv-dev-appsvc
-WAS-DEFAULT-HOSTNAME: lv-sub-inv-dev-appsvc.azurewebsites.net
-X-Forwarded-Proto: https
-X-AppService-Proto: https
-X-ARR-SSL: 2048|256|CN=Microsoft Azure RSA TLS Issuing CA 04, O=Microsoft Corporation, C=US|CN=*.azurewebsites.net, O=Microsoft Corporation, L=Redmond, S=WA, C=US
-X-Forwarded-TlsVersion: 1.3
-X-Forwarded-For: 192.168.32.90
-X-Original-URL: /subinvapi/graphql/
-X-WAWS-Unencoded-URL: /subinvapi/graphql/
 
 
-Request Error: 500 Server Error: Internal Server Error for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
-Raw error response: Microsoft.IdentityModel.Tokens.SecurityTokenMalformedException: IDX12709: CanReadToken() returned false. JWT is not well formed.
-The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EncodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
-   at System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.ReadJwtToken(String token)
-   at MSRSubservicerInvoice_API.Middleware.AuthenticationMiddleware.InvokeAsync(HttpContext context, LADMSDbContext _dbContext) in D:\a\1\s\MSRSubservicerInvoice-API\Middleware\AuthenticationMiddleware.cs:line 28
-   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
-   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
-
-HEADERS
-=======
-Accept: */*
-Accept-Encoding: gzip, deflate
-Authorization: Bearer your_bearer_token_here
-Content-Length: 40
-Content-Type: application/json
-Cookie: ARRAffinity=7d577d29f8e00b2374ddb413016b2f6617c84445e3b963399a9d336135481e13; ARRAffinitySameSite=7d577d29f8e00b2374ddb413016b2f6617c84445e3b963399a9d336135481e13
-Host: lv-sub-inv-dev-appsvc.azurewebsites.net
-Max-Forwards: 10
-User-Agent: python-requests/2.31.0
-X-ARR-LOG-ID: 76585f4f-3e04-4ad3-bff0-06483791a1fb
-CLIENT-IP: [fd40:6269:121:7532:6d21:100:c0a8:205a]:65360
-DISGUISED-HOST: lv-sub-inv-dev-appsvc.azurewebsites.net
-X-SITE-DEPLOYMENT-ID: lv-sub-inv-dev-appsvc
-WAS-DEFAULT-HOSTNAME: lv-sub-inv-dev-appsvc.azurewebsites.net
-X-Forwarded-Proto: https
-X-AppService-Proto: https
-X-ARR-SSL: 2048|256|CN=Microsoft Azure RSA TLS Issuing CA 04, O=Microsoft Corporation, C=US|CN=*.azurewebsites.net, O=Microsoft Corporation, L=Redmond, S=WA, C=US
-X-Forwarded-TlsVersion: 1.3
-X-Forwarded-For: 192.168.32.90
-X-Original-URL: /subinvapi/graphql/
-X-WAWS-Unencoded-URL: /subinvapi/graphql/
-
+Request Error: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
+Raw error response:
 ________________________________________________________________________________________________________ test_get_counterparties ________________________________________________________________________________________________________
 
-graphql_client = <conftest.GraphQLClient object at 0x000002DDF25BC6D0>
+graphql_client = <conftest.GraphQLClient object at 0x000001DE5086A710>
 
     def test_get_counterparties(graphql_client):
         """Test retrieving counterparties list"""
         # Execute the query
 >       response = graphql_client.execute_query_file('graphql_queries/get_counterparties.graphql')
-E       AttributeError: 'GraphQLClient' object has no attribute 'execute_query_file'
 
-tests\test_counterparties.py:7: AttributeError
+tests\test_counterparties.py:7:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+conftest.py:118: in execute_query_file
+    return self.execute_query(query)
+conftest.py:100: in execute_query
+    response.raise_for_status()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <Response [401]>
+
+    def raise_for_status(self):
+        """Raises :class:`HTTPError`, if one occurred."""
+
+        http_error_msg = ""
+        if isinstance(self.reason, bytes):
+            # We attempt to decode utf-8 first because some servers
+            # choose to localize their reason strings. If the string
+            # isn't utf-8, we fall back to iso-8859-1 for all other
+            # encodings. (See PR #3538)
+            try:
+                reason = self.reason.decode("utf-8")
+            except UnicodeDecodeError:
+                reason = self.reason.decode("iso-8859-1")
+        else:
+            reason = self.reason
+
+        if 400 <= self.status_code < 500:
+            http_error_msg = (
+                f"{self.status_code} Client Error: {reason} for url: {self.url}"
+            )
+
+        elif 500 <= self.status_code < 600:
+            http_error_msg = (
+                f"{self.status_code} Server Error: {reason} for url: {self.url}"
+            )
+
+        if http_error_msg:
+>           raise HTTPError(http_error_msg, response=self)
+E           requests.exceptions.HTTPError: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
+
+..\..\pytest\.venv\Lib\site-packages\requests\models.py:1021: HTTPError
+--------------------------------------------------------------------------------------------------------- Captured stdout call ----------------------------------------------------------------------------------------------------------
+
+=== GraphQL Request ===
+URL: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
+Headers:
+User-Agent: python-requests/2.31.0
+Accept-Encoding: gzip, deflate
+Accept: */*
+Connection: keep-alive
+Authorization: <token-hidden>
+Content-Type: application/json
+
+Cookies:
+ARRAffinity: 7d577d29f8e00b2374ddb413016b2f6617c84445e3b963399a9d336135481e13
+ARRAffinitySameSite: 7d577d29f8e00b2374ddb413016b2f6617c84445e3b963399a9d336135481e13
+
+Request Payload:
+{
+  "query": "query {\n  counterparties(\n    first: null\n    after: null\n    last: null\n    before: null\n    where: null\n    order: null\n  ) {\n    totalCount\n    edges {\n      cursor\n      node {\n        aba\n        account
+Name\n        address1\n        address2\n        bankName\n        city\n        contactName\n        counterpartyEmailAddress\n        counterpartyId\n        counterpartyName\n        createdBy\n        createdDt\n        dda\n
+    departmentName\n        state\n        updatedBy\n        updatedDt\n        zip\n      }\n    }\n    nodes {\n      aba\n      accountName\n      address1\n      address2\n      bankName\n      city\n      contactName\n      coun
+terpartyEmailAddress\n      counterpartyId\n      counterpartyName\n      createdBy\n      createdDt\n      dda\n      departmentName\n      state\n      updatedBy\n      updatedDt\n      zip\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n      hasPreviousPage\n      startCursor\n    }\n  }\n}"
+}
+
+=== GraphQL Response ===
+Status Code: 401
+Response Headers:
+Content-Length: 0
+Date: Tue, 29 Apr 2025 23:50:50 GMT
+Server: Microsoft-IIS/10.0
+Request-Context: appId=cid-v1:59368e04-2e6f-4086-9672-604d4ac2de56
+X-Powered-By: ASP.NET
+
+Response Body:
+Raw response (not JSON):
+
+
+Request Error: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
+Raw error response:
 =========================================================================================================== warnings summary ============================================================================================================
 test_graphql_queries.py::test_graphql_query[get_expense_details.graphql]
 test_graphql_queries.py::test_graphql_query[get_inventory.graphql]
 test_graphql_queries.py::test_graphql_query[get_user.graphql]
 test_graphql_queries.py::test_invalid_query
+tests/test_counterparties.py::test_get_counterparties
   C:\Users\SaiKrishna\PycharmProjects\pytestgit\pytest\.venv\Lib\site-packages\urllib3\connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host 'lv-sub-inv-dev-appsvc.azurewebsites.net'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
     warnings.warn(
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
 ======================================================================================================== short test summary info ========================================================================================================
-FAILED test_graphql_queries.py::test_graphql_query[get_counterparties.graphql] - Failed: Query get_counterparties.graphql failed with error: 500 Server Error: Internal Server Error for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
-FAILED test_graphql_queries.py::test_graphql_query[get_expense_details.graphql] - Failed: Query get_expense_details.graphql failed with error: 500 Server Error: Internal Server Error for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
-FAILED test_graphql_queries.py::test_graphql_query[get_inventory.graphql] - Failed: Query get_inventory.graphql failed with error: 500 Server Error: Internal Server Error for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
-FAILED test_graphql_queries.py::test_graphql_query[get_user.graphql] - Failed: Query get_user.graphql failed with error: 500 Server Error: Internal Server Error for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
-FAILED test_graphql_queries.py::test_invalid_query - requests.exceptions.HTTPError: 500 Server Error: Internal Server Error for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
-FAILED tests/test_counterparties.py::test_get_counterparties - AttributeError: 'GraphQLClient' object has no attribute 'execute_query_file'
+FAILED test_graphql_queries.py::test_graphql_query[get_counterparties.graphql] - Failed: Query get_counterparties.graphql failed with error: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
+FAILED test_graphql_queries.py::test_graphql_query[get_expense_details.graphql] - Failed: Query get_expense_details.graphql failed with error: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
+FAILED test_graphql_queries.py::test_graphql_query[get_inventory.graphql] - Failed: Query get_inventory.graphql failed with error: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
+FAILED test_graphql_queries.py::test_graphql_query[get_user.graphql] - Failed: Query get_user.graphql failed with error: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
+FAILED test_graphql_queries.py::test_invalid_query - requests.exceptions.HTTPError: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
+FAILED tests/test_counterparties.py::test_get_counterparties - requests.exceptions.HTTPError: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
+===================================================================================================== 6 failed, 5 warnings in 2.87s =====================================================================================================
+(.venv) PS C:\Users\SaiKrishna\PycharmProjects\pytestgit\newPytest\pytest>
