@@ -46,8 +46,10 @@ class GraphQLClient:
     def execute_query(self, query, variables=None):
         # Format the payload exactly like the curl example
         payload = {
-            'query': f"query {query}"  # Add 'query' keyword if not present
+            'query': query if query.startswith('query ') else f"query {query}"
         }
+        if variables:
+            payload['variables'] = variables
         
         # Log the request details
         print("\n=== GraphQL Request ===")
@@ -108,6 +110,12 @@ class GraphQLClient:
                 except:
                     print(f"Raw error response: {e.response.text}")
             raise
+
+    def execute_query_file(self, query_file):
+        """Execute a GraphQL query from a file."""
+        with open(query_file, 'r') as f:
+            query = f.read().strip()
+        return self.execute_query(query)
 
 @pytest.fixture(scope="session")
 def graphql_client():
