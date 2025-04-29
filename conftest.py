@@ -1,6 +1,5 @@
 import os
 import pytest
-import msal
 import requests
 from dotenv import load_dotenv
 
@@ -9,35 +8,16 @@ load_dotenv()
 class GraphQLClient:
     def __init__(self):
         self.api_url = os.getenv('API_URL')
-        self.access_token = self._get_access_token()
+        self.bearer_token = os.getenv('BEARER_TOKEN')
+        
+        if not self.bearer_token:
+            raise ValueError("Missing BEARER_TOKEN in environment variables")
+            
         self.session = requests.Session()
         self.session.headers.update({
-            'Authorization': f'Bearer {self.access_token}',
+            'Authorization': f'Bearer {self.bearer_token}',
             'Content-Type': 'application/json',
         })
-
-    def _get_access_token(self):
-        client_id = os.getenv('CLIENT_ID')
-        client_secret = os.getenv('CLIENT_SECRET')
-        tenant_id = os.getenv('TENANT_ID')
-        scope = os.getenv('SCOPE')
-
-        if not all([client_id, client_secret, tenant_id, scope]):
-            raise ValueError("Missing required environment variables for authentication")
-
-        authority = f'https://login.microsoftonline.com/{tenant_id}'
-        app = msal.ConfidentialClientApplication(
-            client_id=client_id,
-            client_credential=client_secret,
-            authority=authority
-        )
-
-        result = app.acquire_token_for_client(scopes=[scope])
-        
-        if 'access_token' not in result:
-            raise Exception(f"Failed to acquire token: {result.get('error_description', 'Unknown error')}")
-            
-        return result['access_token']
 
     def execute_query(self, query, variables=None):
         payload = {
