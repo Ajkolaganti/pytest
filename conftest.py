@@ -46,7 +46,6 @@ def check_api_health():
         print(f"API Health Check Failed: {str(e)}")
         return False
 
-# Run API health check before tests
 def pytest_configure(config):
     """Configure test session."""
     if not check_api_health():
@@ -90,43 +89,6 @@ def pytest_html_results_table_row(report, cells):
         cells.insert(4, f"<td>{report.schema_validation}</td>")
     else:
         cells.insert(4, "<td>N/A</td>")
-
-def pytest_html_assets_path(config):
-    return os.path.join(os.path.dirname(__file__), 'assets')
-
-def pytest_html_report_data(report):
-    # Add custom CSS
-    report.style_sheets.append("custom.css")
-    
-    # Add custom JavaScript for collapsible sections
-    report.scripts.append("""
-        function toggleDetails(element) {
-            var content = element.nextElementSibling;
-            if (content.style.display === "none" || content.style.display === "") {
-                content.style.display = "block";
-                element.textContent = element.textContent.replace("▶", "▼");
-            } else {
-                content.style.display = "none";
-                element.textContent = element.textContent.replace("▼", "▶");
-            }
-        }
-        
-        // Add collapsible functionality to all sections after page load
-        window.addEventListener('load', function() {
-            var sections = document.querySelectorAll('.collapsible');
-            sections.forEach(function(section) {
-                section.style.cursor = 'pointer';
-                section.addEventListener('click', function() {
-                    toggleDetails(this);
-                });
-                // Initially hide the content
-                var content = section.nextElementSibling;
-                if (content) {
-                    content.style.display = 'none';
-                }
-            });
-        });
-    """)
 
 # Store request/response data for reporting
 class GraphQLRequestData:
