@@ -1,12 +1,135 @@
-(.venv) PS C:\Users\SaiKrishna\PycharmProjects\pytestgit\newPytest\pytest> pytest
+(.venv) PS C:\Users\SaiKrishna\PycharmProjects\pytestgit\newPytest\pytest> pip list | grep pytest-html
+grep : The term 'grep' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:12
++ pip list | grep pytest-html
++            ~~~~
+    + CategoryInfo          : ObjectNotFound: (grep:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+(.venv) PS C:\Users\SaiKrishna\PycharmProjects\pytestgit\newPytest\pytest> pytest --html=report.html
 Checking API health at: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
 C:\Users\SaiKrishna\PycharmProjects\pytestgit\pytest\.venv\Lib\site-packages\urllib3\connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host 'lv-sub-inv-dev-appsvc.azurewebsites.net'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
   warnings.warn(
 Response Status Code: 200
-Response Headers: {'Content-Type': 'application/graphql-response+json; charset=utf-8', 'Date': 'Wed, 30 Apr 2025 01:09:06 GMT', 'Server': 'Microsoft-IIS/10.0', 'Set-Cookie': 'ARRAffinity=7d577d29f8e00b2374ddb413016b2f6617c84445e3b963399a9d336135481e13;Path=/;HttpOnly;Secure;Domain=lv-sub-inv-dev-appsvc.azurewebsites.net, ARRAffinitySameSite=7d577d29f8e00b2374ddb413016b2f6617c84445e3b963399a9d336135481e13;Path=/;HttpOnly;SameSite=None;Secure;Domain=lv-sub-inv-dev-appsvc.azurewebsites.net', 'Transfer-Encoding': 'chunked', 'Strict-Transport-Security': 'max-age=2592000', 'Request-Context': 'appId=cid-v1:59368e04-2e6f-4086-9672-604d4ac2de56', 'X-Powered-By': 'ASP.NET'}
+Response Headers: {'Content-Type': 'application/graphql-response+json; charset=utf-8', 'Date': 'Wed, 30 Apr 2025 01:20:06 GMT', 'Server': 'Microsoft-IIS/10.0', 'Set-Cookie': 'ARRAffinity=7d577d29f8e00b2374ddb413016b2f6617c84445e3b9633
+99a9d336135481e13;Path=/;HttpOnly;Secure;Domain=lv-sub-inv-dev-appsvc.azurewebsites.net, ARRAffinitySameSite=7d577d29f8e00b2374ddb413016b2f6617c84445e3b963399a9d336135481e13;Path=/;HttpOnly;SameSite=None;Secure;Domain=lv-sub-inv-dev-appsvc.azurewebsites.net', 'Transfer-Encoding': 'chunked', 'Strict-Transport-Security': 'max-age=2592000', 'Request-Context': 'appId=cid-v1:59368e04-2e6f-4086-9672-604d4ac2de56', 'X-Powered-By': 'ASP.NET'}
 Response Body: {"data":{"__typename":"Query"}}...
 ========================================================================================================== test session starts ==========================================================================================================
 platform win32 -- Python 3.11.9, pytest-8.0.0, pluggy-1.5.0
+rootdir: C:\Users\SaiKrishna\PycharmProjects\pytestgit\newPytest\pytest
+plugins: html-4.1.1, metadata-3.1.1
+collected 4 items
+INTERNALERROR> Traceback (most recent call last):
+INTERNALERROR>   File "C:\Users\SaiKrishna\PycharmProjects\pytestgit\pytest\.venv\Lib\site-packages\_pytest\main.py", line 272, in wrap_session
+INTERNALERROR>     session.exitstatus = doit(config, session) or 0
+INTERNALERROR>                          ^^^^^^^^^^^^^^^^^^^^^
+INTERNALERROR>   File "C:\Users\SaiKrishna\PycharmProjects\pytestgit\pytest\.venv\Lib\site-packages\_pytest\main.py", line 325, in _main
+INTERNALERROR>     config.hook.pytest_collection(session=session)
+INTERNALERROR>   File "C:\Users\SaiKrishna\PycharmProjects\pytestgit\pytest\.venv\Lib\site-packages\pluggy\_hooks.py", line 513, in __call__
+INTERNALERROR>     return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+INTERNALERROR>            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+INTERNALERROR>   File "C:\Users\SaiKrishna\PycharmProjects\pytestgit\pytest\.venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+INTERNALERROR>     return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+INTERNALERROR>            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+INTERNALERROR>   File "C:\Users\SaiKrishna\PycharmProjects\pytestgit\pytest\.venv\Lib\site-packages\pluggy\_callers.py", line 139, in _multicall
+INTERNALERROR>     raise exception.with_traceback(exception.__traceback__)
+INTERNALERROR>   File "C:\Users\SaiKrishna\PycharmProjects\pytestgit\pytest\.venv\Lib\site-packages\pluggy\_callers.py", line 122, in _multicall
+INTERNALERROR>     teardown.throw(exception)  # type: ignore[union-attr]
+INTERNALERROR>     ^^^^^^^^^^^^^^^^^^^^^^^^^
+INTERNALERROR>   File "C:\Users\SaiKrishna\PycharmProjects\pytestgit\pytest\.venv\Lib\site-packages\_pytest\logging.py", line 783, in pytest_collection
+INTERNALERROR>     return (yield)
+INTERNALERROR>             ^^^^^
+INTERNALERROR>   File "C:\Users\SaiKrishna\PycharmProjects\pytestgit\pytest\.venv\Lib\site-packages\pluggy\_callers.py", line 122, in _multicall
+INTERNALERROR>     teardown.throw(exception)  # type: ignore[union-attr]
+INTERNALERROR>     ^^^^^^^^^^^^^^^^^^^^^^^^^
+INTERNALERROR>   File "C:\Users\SaiKrishna\PycharmProjects\pytestgit\pytest\.venv\Lib\site-packages\_pytest\warnings.py", line 118, in pytest_collection
+INTERNALERROR>     return (yield)
+INTERNALERROR>             ^^^^^
+INTERNALERROR>   File "C:\Users\SaiKrishna\PycharmProjects\pytestgit\pytest\.venv\Lib\site-packages\pluggy\_callers.py", line 122, in _multicall
+INTERNALERROR>     teardown.throw(exception)  # type: ignore[union-attr]
+INTERNALERROR>     ^^^^^^^^^^^^^^^^^^^^^^^^^
+INTERNALERROR>   File "C:\Users\SaiKrishna\PycharmProjects\pytestgit\pytest\.venv\Lib\site-packages\_pytest\config\__init__.py", line 1365, in pytest_collection
+INTERNALERROR>     return (yield)
+INTERNALERROR>             ^^^^^
+INTERNALERROR>   File "C:\Users\SaiKrishna\PycharmProjects\pytestgit\pytest\.venv\Lib\site-packages\pluggy\_callers.py", line 103, in _multicall
+INTERNALERROR>     res = hook_impl.function(*args)
+INTERNALERROR>   File "C:\Users\SaiKrishna\PycharmProjects\pytestgit\pytest\.venv\Lib\site-packages\_pytest\main.py", line 336, in pytest_collection
+INTERNALERROR>     session.perform_collect()
+INTERNALERROR>   File "C:\Users\SaiKrishna\PycharmProjects\pytestgit\pytest\.venv\Lib\site-packages\_pytest\main.py", line 801, in perform_collect
+INTERNALERROR>     self.config.pluginmanager.check_pending()
+INTERNALERROR>   File "C:\Users\SaiKrishna\PycharmProjects\pytestgit\pytest\.venv\Lib\site-packages\pluggy\_manager.py", line 391, in check_pending
+INTERNALERROR>     raise PluginValidationError(
+INTERNALERROR> pluggy._manager.PluginValidationError: unknown hook 'pytest_html_assets_path' in plugin <module 'conftest' from 'C:\\Users\\SaiKrishna\\PycharmProjects\\pytestgit\\newPytest\\pytest\\conftest.py'>
+
+========================================================================================================= no tests ran in 0.10s =========================================================================================================
+(.venv) PS C:\Users\SaiKrishna\PycharmProjects\pytestgit\newPytest\pytest> pytest --html=report.html
+Checking API health at: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
+C:\Users\SaiKrishna\PycharmProjects\pytestgit\pytest\.venv\Lib\site-packages\urllib3\connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host 'lv-sub-inv-dev-appsvc.azurewebsites.net'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+Response Status Code: 200
+Response Headers: {'Content-Type': 'application/graphql-response+json; charset=utf-8', 'Date': 'Wed, 30 Apr 2025 01:21:44 GMT', 'Server': 'Microsoft-IIS/10.0', 'Set-Cookie': 'ARRAffinity=7d577d29f8e00b2374ddb413016b2f6617c84445e3b9633
+99a9d336135481e13;Path=/;HttpOnly;Secure;Domain=lv-sub-inv-dev-appsvc.azurewebsites.net, ARRAffinitySameSite=7d577d29f8e00b2374ddb413016b2f6617c84445e3b963399a9d336135481e13;Path=/;HttpOnly;SameSite=None;Secure;Domain=lv-sub-inv-dev-appsvc.azurewebsites.net', 'Transfer-Encoding': 'chunked', 'Strict-Transport-Security': 'max-age=2592000', 'Request-Context': 'appId=cid-v1:59368e04-2e6f-4086-9672-604d4ac2de56', 'X-Powered-By': 'ASP.NET'}
+Response Body: {"data":{"__typename":"Query"}}...
+========================================================================================================== test session starts ==========================================================================================================
+platform win32 -- Python 3.11.9, pytest-8.0.0, pluggy-1.5.0
+rootdir: C:\Users\SaiKrishna\PycharmProjects\pytestgit\newPytest\pytest
+plugins: html-4.1.1, metadata-3.1.1
+collected 4 items
+INTERNALERROR> Traceback (most recent call last):
+INTERNALERROR>   File "C:\Users\SaiKrishna\PycharmProjects\pytestgit\pytest\.venv\Lib\site-packages\_pytest\main.py", line 272, in wrap_session
+INTERNALERROR>     session.exitstatus = doit(config, session) or 0
+INTERNALERROR>                          ^^^^^^^^^^^^^^^^^^^^^
+INTERNALERROR>   File "C:\Users\SaiKrishna\PycharmProjects\pytestgit\pytest\.venv\Lib\site-packages\_pytest\main.py", line 325, in _main
+INTERNALERROR>     config.hook.pytest_collection(session=session)
+INTERNALERROR>   File "C:\Users\SaiKrishna\PycharmProjects\pytestgit\pytest\.venv\Lib\site-packages\pluggy\_hooks.py", line 513, in __call__
+INTERNALERROR>     return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+INTERNALERROR>            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+INTERNALERROR>   File "C:\Users\SaiKrishna\PycharmProjects\pytestgit\pytest\.venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+INTERNALERROR>     return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+INTERNALERROR>            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+INTERNALERROR>   File "C:\Users\SaiKrishna\PycharmProjects\pytestgit\pytest\.venv\Lib\site-packages\pluggy\_callers.py", line 139, in _multicall
+INTERNALERROR>     raise exception.with_traceback(exception.__traceback__)
+INTERNALERROR>   File "C:\Users\SaiKrishna\PycharmProjects\pytestgit\pytest\.venv\Lib\site-packages\pluggy\_callers.py", line 122, in _multicall
+INTERNALERROR>     teardown.throw(exception)  # type: ignore[union-attr]
+INTERNALERROR>     ^^^^^^^^^^^^^^^^^^^^^^^^^
+INTERNALERROR>   File "C:\Users\SaiKrishna\PycharmProjects\pytestgit\pytest\.venv\Lib\site-packages\_pytest\logging.py", line 783, in pytest_collection
+INTERNALERROR>     return (yield)
+INTERNALERROR>             ^^^^^
+INTERNALERROR>   File "C:\Users\SaiKrishna\PycharmProjects\pytestgit\pytest\.venv\Lib\site-packages\pluggy\_callers.py", line 122, in _multicall
+INTERNALERROR>     teardown.throw(exception)  # type: ignore[union-attr]
+INTERNALERROR>     ^^^^^^^^^^^^^^^^^^^^^^^^^
+INTERNALERROR>   File "C:\Users\SaiKrishna\PycharmProjects\pytestgit\pytest\.venv\Lib\site-packages\_pytest\warnings.py", line 118, in pytest_collection
+INTERNALERROR>     return (yield)
+INTERNALERROR>             ^^^^^
+INTERNALERROR>   File "C:\Users\SaiKrishna\PycharmProjects\pytestgit\pytest\.venv\Lib\site-packages\pluggy\_callers.py", line 122, in _multicall
+INTERNALERROR>     teardown.throw(exception)  # type: ignore[union-attr]
+INTERNALERROR>     ^^^^^^^^^^^^^^^^^^^^^^^^^
+INTERNALERROR>   File "C:\Users\SaiKrishna\PycharmProjects\pytestgit\pytest\.venv\Lib\site-packages\_pytest\config\__init__.py", line 1365, in pytest_collection
+INTERNALERROR>     return (yield)
+INTERNALERROR>             ^^^^^
+INTERNALERROR>   File "C:\Users\SaiKrishna\PycharmProjects\pytestgit\pytest\.venv\Lib\site-packages\pluggy\_callers.py", line 103, in _multicall
+INTERNALERROR>     res = hook_impl.function(*args)
+INTERNALERROR>   File "C:\Users\SaiKrishna\PycharmProjects\pytestgit\pytest\.venv\Lib\site-packages\_pytest\main.py", line 336, in pytest_collection
+INTERNALERROR>     session.perform_collect()
+INTERNALERROR>   File "C:\Users\SaiKrishna\PycharmProjects\pytestgit\pytest\.venv\Lib\site-packages\_pytest\main.py", line 801, in perform_collect
+INTERNALERROR>     self.config.pluginmanager.check_pending()
+INTERNALERROR>   File "C:\Users\SaiKrishna\PycharmProjects\pytestgit\pytest\.venv\Lib\site-packages\pluggy\_manager.py", line 391, in check_pending
+INTERNALERROR>     raise PluginValidationError(
+INTERNALERROR> pluggy._manager.PluginValidationError: unknown hook 'pytest_html_assets_path' in plugin <module 'conftest' from 'C:\\Users\\SaiKrishna\\PycharmProjects\\pytestgit\\newPytest\\pytest\\conftest.py'>
+
+========================================================================================================= no tests ran in 0.12s =========================================================================================================
+(.venv) PS C:\Users\SaiKrishna\PycharmProjects\pytestgit\newPytest\pytest> pytest --html=report.html --self-contained-html -v
+Checking API health at: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
+C:\Users\SaiKrishna\PycharmProjects\pytestgit\pytest\.venv\Lib\site-packages\urllib3\connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host 'lv-sub-inv-dev-appsvc.azurewebsites.net'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+Response Status Code: 200
+Response Headers: {'Content-Type': 'application/graphql-response+json; charset=utf-8', 'Date': 'Wed, 30 Apr 2025 01:22:34 GMT', 'Server': 'Microsoft-IIS/10.0', 'Set-Cookie': 'ARRAffinity=7d577d29f8e00b2374ddb413016b2f6617c84445e3b9633
+99a9d336135481e13;Path=/;HttpOnly;Secure;Domain=lv-sub-inv-dev-appsvc.azurewebsites.net, ARRAffinitySameSite=7d577d29f8e00b2374ddb413016b2f6617c84445e3b963399a9d336135481e13;Path=/;HttpOnly;SameSite=None;Secure;Domain=lv-sub-inv-dev-appsvc.azurewebsites.net', 'Transfer-Encoding': 'chunked', 'Strict-Transport-Security': 'max-age=2592000', 'Request-Context': 'appId=cid-v1:59368e04-2e6f-4086-9672-604d4ac2de56', 'X-Powered-By': 'ASP.NET'}
+Response Body: {"data":{"__typename":"Query"}}...
+========================================================================================================== test session starts ==========================================================================================================
+platform win32 -- Python 3.11.9, pytest-8.0.0, pluggy-1.5.0 -- C:\Users\SaiKrishna\PycharmProjects\pytestgit\pytest\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+metadata: {'Python': '3.11.9', 'Platform': 'Windows-10-10.0.19045-SP0', 'Packages': {'pytest': '8.0.0', 'pluggy': '1.5.0'}, 'Plugins': {'html': '4.1.1', 'metadata': '3.1.1'}}
 rootdir: C:\Users\SaiKrishna\PycharmProjects\pytestgit\newPytest\pytest
 plugins: html-4.1.1, metadata-3.1.1
 collected 4 items
@@ -53,6 +176,6 @@ INTERNALERROR>   File "C:\Users\SaiKrishna\PycharmProjects\pytestgit\pytest\.ven
 INTERNALERROR>     raise PluginValidationError(
 INTERNALERROR> pluggy._manager.PluginValidationError: unknown hook 'pytest_html_assets_path' in plugin <module 'conftest' from 'C:\\Users\\SaiKrishna\\PycharmProjects\\pytestgit\\newPytest\\pytest\\conftest.py'>
 
-========================================================================================================= no tests ran in 0.12s =========================================================================================================
+========================================================================================================= no tests ran in 0.11s =========================================================================================================
 (.venv) PS C:\Users\SaiKrishna\PycharmProjects\pytestgit\newPytest\pytest>
 
