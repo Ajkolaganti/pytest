@@ -29,8 +29,8 @@ def test_graphql_query(graphql_client, load_query, query_file):
     # Load the query from file
     query = load_query(query_file)
     
-    # Execute the query
     try:
+        # Execute the query
         response = graphql_client.execute_query(query)
         
         # Assert response structure
@@ -38,17 +38,21 @@ def test_graphql_query(graphql_client, load_query, query_file):
         assert 'data' in response or 'errors' in response, \
             f"Response for {query_file} must contain either 'data' or 'errors'"
         
-        # Validate data if present
+        # If there are GraphQL errors, the test should still pass
+        # as long as they are well-formed errors
+        if 'errors' in response:
+            assert isinstance(response['errors'], list), \
+                f"'errors' in response for {query_file} must be a list"
+            for error in response['errors']:
+                assert 'message' in error, \
+                    f"Error in response for {query_file} must have a message"
+        
+        # If there is data, validate its structure
         if 'data' in response:
             assert isinstance(response['data'], dict), \
                 f"'data' in response for {query_file} must be a dictionary"
             
-        # Validate errors if present
-        if 'errors' in response:
-            assert isinstance(response['errors'], list), \
-                f"'errors' in response for {query_file} must be a list"
-            
-    except Exception as e:
+    except requests.exceptions.RequestException as e:
         pytest.fail(f"Query {query_file} failed with error: {str(e)}")
 
 def test_invalid_query(graphql_client):
