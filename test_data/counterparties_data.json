@@ -1,0 +1,57 @@
+{
+    "counterparties": {
+        "totalCount": 2,
+        "edges": [
+            {
+                "node": {
+                    "aba": "123456789",
+                    "accountName": "Test Account 1",
+                    "address1": "123 Main St",
+                    "address2": "Suite 100",
+                    "bankName": "Test Bank",
+                    "city": "Test City",
+                    "contactName": "John Doe",
+                    "counterpartyEmailAddress": "john.doe@test.com",
+                    "counterpartyId": "CP001",
+                    "counterpartyName": "Test Company 1",
+                    "createdBy": "admin",
+                    "createdDt": "2024-03-20T10:00:00Z",
+                    "dda": "987654321",
+                    "departmentName": "Finance",
+                    "state": "CA",
+                    "updatedBy": "admin",
+                    "updatedDt": "2024-03-20T10:00:00Z",
+                    "zip": "12345"
+                }
+            },
+            {
+                "node": {
+                    "aba": "987654321",
+                    "accountName": "Test Account 2",
+                    "address1": "456 Oak Ave",
+                    "address2": "Floor 2",
+                    "bankName": "Another Bank",
+                    "city": "Another City",
+                    "contactName": "Jane Smith",
+                    "counterpartyEmailAddress": "jane.smith@test.com",
+                    "counterpartyId": "CP002",
+                    "counterpartyName": "Test Company 2",
+                    "createdBy": "admin",
+                    "createdDt": "2024-03-20T11:00:00Z",
+                    "dda": "123456789",
+                    "departmentName": "Accounting",
+                    "state": "NY",
+                    "updatedBy": "admin",
+                    "updatedDt": "2024-03-20T11:00:00Z",
+                    "zip": "67890"
+                }
+            }
+        ],
+        "pageInfo": {
+            "hasNextPage": false,
+            "hasPreviousPage": false,
+            "startCursor": "YXJyYXljb25uZWN0aW9uOjA=",
+            "endCursor": "YXJyYXljb25uZWN0aW9uOjE="
+        }
+    }
+} 

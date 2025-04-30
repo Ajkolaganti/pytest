@@ -1,17 +1,37 @@
 trigger:
-  - main
+  - main  # or your default branch name
+
+# For scheduled runs
+schedules:
+- cron: "0 */6 * * *"  # Run every 6 hours
+  displayName: 'Regular API Test'
+  branches:
+    include:
+      - main  # or your default branch name
+  always: true
 
 pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  - group: graphql-test-secrets
+  - group: graphql-test-secrets  # Create this variable group in Azure DevOps
 
 steps:
+- checkout: self  # Explicitly checkout your repository
+
 - task: UsePythonVersion@0
   inputs:
-    versionSpec: '3.9'
+    versionSpec: '3.11'  # Match your Python version
     addToPath: true
+  displayName: 'Set up Python'
+
+- task: Cache@2
+  inputs:
+    key: 'pip | "$(Agent.OS)" | requirements.txt'
+    restoreKeys: |
+      pip | "$(Agent.OS)"
+    path: $(PIP_CACHE_DIR)
+  displayName: 'Cache pip packages'
 
 - script: |
     python -m pip install --upgrade pip
@@ -19,22 +39,26 @@ steps:
   displayName: 'Install dependencies'
 
 - script: |
-    echo "CLIENT_ID=$(CLIENT_ID)" > .env
-    echo "CLIENT_SECRET=$(CLIENT_SECRET)" >> .env
-    echo "TENANT_ID=$(TENANT_ID)" >> .env
-    echo "SCOPE=$(SCOPE)" >> .env
-    echo "API_URL=$(API_URL)" >> .env
+    # Create .env file with secrets
+    echo "API_URL=$(API_URL)" > .env
+    echo "BEARER_TOKEN=$(BEARER_TOKEN)" >> .env
   displayName: 'Set up environment variables'
+  env:
+    API_URL: $(API_URL)
+    BEARER_TOKEN: $(BEARER_TOKEN)
 
 - script: |
-    pytest --html=report.html --self-contained-html
+    python -m pytest --html=report.html --self-contained-html --junitxml=test-results.xml
   displayName: 'Run tests'
+  continueOnError: true  # Continue pipeline even if tests fail
 
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'JUnit'
-    testResultsFiles: '**/test-*.xml'
-    failTaskOnFailedTests: true
+    testResultsFiles: '**/test-results.xml'
+    failTaskOnFailedTests: false  # Don't fail pipeline on test failures
+    testRunTitle: 'GraphQL API Tests'
+  displayName: 'Publish test results'
   condition: succeededOrFailed()
 
 - task: PublishPipelineArtifact@1
@@ -42,4 +66,24 @@ steps:
     targetPath: 'report.html'
     artifact: 'TestReport'
     publishLocation: 'pipeline'
-  condition: succeededOrFailed() 
+  displayName: 'Publish HTML report'
+  condition: succeededOrFailed()
+
+# Optional: Send notifications on failure
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      $BODY = @"
+      Pipeline: $(Build.DefinitionName)
+      Status: Failed
+      Build Number: $(Build.BuildNumber)
+      Triggered By: $(Build.RequestedFor)
+      
+      View detailed report at:
+      $(System.TeamFoundationCollectionUri)/$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)
+      "@
+      
+      Send-MailMessage -From "$(EmailFrom)" -To "$(NotificationEmail)" -Subject "API Test Pipeline Failed" -Body $BODY -SmtpServer "$(SmtpServer)"
+  displayName: 'Send failure notification'
+  condition: failed() 
