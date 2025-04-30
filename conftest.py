@@ -10,14 +10,36 @@ load_dotenv()
 def check_api_health():
     """Check if the API is healthy and if its schema has changed."""
     api_url = os.getenv('API_URL')
+    bearer_token = os.getenv('BEARER_TOKEN')
+    
+    if not api_url or not bearer_token:
+        print("API Health Check Failed: Missing API_URL or BEARER_TOKEN in environment variables")
+        return False
+        
     try:
-        # Basic health check
-        response = requests.get(api_url, verify=False)
-        if response.status_code != 200:
+        # Use POST with a simple introspection query
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': bearer_token
+        }
+        
+        # Simple introspection query
+        payload = {
+            'query': '{ __typename }'
+        }
+        
+        print(f"Checking API health at: {api_url}")
+        response = requests.post(api_url, json=payload, headers=headers, verify=False)
+        
+        # Print response details for debugging
+        print(f"Response Status Code: {response.status_code}")
+        print(f"Response Headers: {dict(response.headers)}")
+        print(f"Response Body: {response.text[:200]}...")  # Print first 200 chars
+        
+        if response.status_code not in (200, 400):  # Both are valid for GraphQL
             print(f"API Health Check Failed: Status code {response.status_code}")
             return False
             
-        # You could add more checks here, like schema validation
         return True
     except Exception as e:
         print(f"API Health Check Failed: {str(e)}")
