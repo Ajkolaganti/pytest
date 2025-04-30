@@ -61,9 +61,35 @@ def pytest_configure(config):
     config._metadata['Python Version'] = sys.version
     config._metadata['Timestamp'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-# Custom CSS and JavaScript for the HTML report
+@pytest.hookimpl(optionalhook=True)
 def pytest_html_report_title(report):
+    """Set the title for the HTML report."""
     report.title = "GraphQL API Test Report"
+
+@pytest.hookimpl(optionalhook=True)
+def pytest_html_results_table_header(cells):
+    """Add custom column headers to the HTML report."""
+    cells.insert(2, "<th>Response Time</th>")
+    cells.insert(3, "<th>Query</th>")
+    cells.insert(4, "<th>Schema</th>")
+
+@pytest.hookimpl(optionalhook=True)
+def pytest_html_results_table_row(report, cells):
+    """Add custom row data to the HTML report."""
+    if hasattr(report, "response_time"):
+        cells.insert(2, f"<td>{report.response_time:.2f}s</td>")
+    else:
+        cells.insert(2, "<td>N/A</td>")
+    
+    if hasattr(report, "graphql_query"):
+        cells.insert(3, f"<td><pre>{report.graphql_query}</pre></td>")
+    else:
+        cells.insert(3, "<td>N/A</td>")
+    
+    if hasattr(report, "schema_validation"):
+        cells.insert(4, f"<td>{report.schema_validation}</td>")
+    else:
+        cells.insert(4, "<td>N/A</td>")
 
 def pytest_html_assets_path(config):
     return os.path.join(os.path.dirname(__file__), 'assets')
