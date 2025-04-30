@@ -1,0 +1,83 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["data"],
+  "properties": {
+    "data": {
+      "type": "object",
+      "required": ["counterparties"],
+      "properties": {
+        "counterparties": {
+          "type": "object",
+          "required": ["totalCount", "edges", "nodes", "pageInfo"],
+          "properties": {
+            "totalCount": { "type": "integer" },
+            "edges": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["node"],
+                "properties": {
+                  "node": {
+                    "type": "object",
+                    "required": [
+                      "aba", "accountName", "address1", "bankName", "city",
+                      "contactName", "counterpartyEmailAddress", "counterpartyId",
+                      "counterpartyName", "createdBy", "createdDt", "dda",
+                      "departmentName", "state", "updatedBy", "updatedDt", "zip"
+                    ],
+                    "properties": {
+                      "aba": { "type": "string", "pattern": "^[0-9]{9}$" },
+                      "accountName": { "type": "string" },
+                      "address1": { "type": "string" },
+                      "address2": { "type": ["string", "null"] },
+                      "bankName": { "type": "string" },
+                      "city": { "type": "string" },
+                      "contactName": { "type": "string" },
+                      "counterpartyEmailAddress": { 
+                        "type": "string",
+                        "format": "email"
+                      },
+                      "counterpartyId": { "type": "string" },
+                      "counterpartyName": { "type": "string" },
+                      "createdBy": { "type": "string" },
+                      "createdDt": { 
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "dda": { "type": "string" },
+                      "departmentName": { "type": "string" },
+                      "state": { 
+                        "type": "string",
+                        "pattern": "^[A-Z]{2}$"
+                      },
+                      "updatedBy": { "type": "string" },
+                      "updatedDt": { 
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "zip": { 
+                        "type": "string",
+                        "pattern": "^[0-9]{5}(-[0-9]{4})?$"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "pageInfo": {
+              "type": "object",
+              "required": ["hasNextPage", "hasPreviousPage", "startCursor", "endCursor"],
+              "properties": {
+                "hasNextPage": { "type": "boolean" },
+                "hasPreviousPage": { "type": "boolean" },
+                "startCursor": { "type": "string" },
+                "endCursor": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+} 

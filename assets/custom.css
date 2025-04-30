@@ -8,16 +8,11 @@ body {
     padding: 20px;
 }
 
-h1 {
+h1, h2 {
     color: #2c3e50;
     border-bottom: 2px solid #3498db;
     padding-bottom: 10px;
-    margin-bottom: 30px;
-}
-
-h2 {
-    color: #2c3e50;
-    margin-top: 30px;
+    margin: 30px 0 20px;
 }
 
 /* Environment section */
@@ -35,45 +30,68 @@ h2 {
 /* Results table */
 #results-table {
     width: 100%;
-    border-collapse: collapse;
-    margin: 25px 0;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    border-collapse: separate;
+    border-spacing: 0;
     border-radius: 8px;
     overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin: 25px 0;
 }
 
 #results-table th {
-    background-color: #3498db;
+    background: #3498db;
     color: white;
-    font-weight: 600;
     padding: 12px;
+    font-weight: 600;
     text-align: left;
+    border-bottom: 2px solid #2980b9;
 }
 
 #results-table td {
     padding: 12px;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #dee2e6;
+    vertical-align: top;
 }
 
-#results-table tr:hover {
-    background-color: #f5f5f5;
+/* Response Time Column */
+td:nth-child(3) {
+    font-family: monospace;
+    text-align: right;
+}
+
+/* Query Column */
+td:nth-child(4) pre {
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin: 0;
+}
+
+/* Schema Validation Column */
+td:nth-child(5) {
+    font-weight: 500;
 }
 
 /* Status colors */
 .passed {
-    color: #27ae60;
+    color: #28a745;
+    background-color: #d4edda;
 }
 
 .failed {
-    color: #e74c3c;
+    color: #dc3545;
+    background-color: #f8d7da;
 }
 
 .skipped {
-    color: #f39c12;
+    color: #6c757d;
+    background-color: #e2e3e5;
 }
 
 .error {
-    color: #c0392b;
+    color: #dc3545;
+    background-color: #f8d7da;
 }
 
 /* Collapsible sections */
@@ -176,4 +194,249 @@ pre.graphql {
 .summary-item.passed { background-color: #d4edda; }
 .summary-item.failed { background-color: #f8d7da; }
 .summary-item.skipped { background-color: #e2e3e5; }
-.summary-item.error { background-color: #f8d7da; } 
+.summary-item.error { background-color: #f8d7da; }
+
+/* Metrics Summary Section */
+.metrics-summary {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.metrics-summary table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.metrics-summary td {
+    padding: 10px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.metrics-summary td:first-child {
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+/* Error Breakdown Section */
+.error-breakdown {
+    background: #fff3f3;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.error-breakdown table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.error-breakdown td {
+    padding: 10px;
+    border-bottom: 1px solid #ffcdd2;
+}
+
+.error-breakdown td:first-child {
+    font-weight: 600;
+    color: #c62828;
+}
+
+/* Response Time Indicators */
+.response-fast { color: #28a745; }
+.response-medium { color: #ffc107; }
+.response-slow { color: #dc3545; }
+
+/* Charts Section */
+.charts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.chart {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Print Styles */
+@media print {
+    body {
+        padding: 0;
+        max-width: none;
+    }
+    
+    .charts {
+        break-inside: avoid;
+    }
+    
+    #results-table {
+        break-inside: auto;
+    }
+}
+
+/* Enhanced Error Reporting */
+.error-details {
+    background: #fff3f3;
+    padding: 15px;
+    border-radius: 4px;
+    margin: 10px 0;
+    border-left: 4px solid #dc3545;
+}
+
+.error-details pre {
+    font-family: monospace;
+    white-space: pre-wrap;
+    margin: 10px 0;
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 4px;
+    overflow-x: auto;
+}
+
+/* Detailed Error Reports Section */
+.detailed-errors {
+    background: #fff3f3;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.error-list {
+    display: grid;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.error-item {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.error-item h3 {
+    color: #dc3545;
+    margin: 0 0 10px 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ffcdd2;
+}
+
+.error-type {
+    font-weight: 600;
+    color: #c62828;
+    margin: 5px 0;
+}
+
+.error-message {
+    font-family: monospace;
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 4px;
+    margin: 10px 0;
+}
+
+.error-traceback {
+    font-family: monospace;
+    background: #2c3e50;
+    color: #ecf0f1;
+    padding: 15px;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin: 10px 0;
+    font-size: 0.9em;
+    line-height: 1.4;
+}
+
+/* Screenshot Display */
+.error-screenshot {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin: 10px 0;
+    border: 1px solid #dee2e6;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Error Artifacts Section */
+.error-artifacts {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.error-artifacts h3 {
+    color: #2c3e50;
+    margin: 0 0 15px 0;
+}
+
+.artifact-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.artifact-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.artifact-item:last-child {
+    border-bottom: none;
+}
+
+.artifact-icon {
+    margin-right: 10px;
+    color: #6c757d;
+}
+
+.artifact-link {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.artifact-link:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design for Error Reports */
+@media (max-width: 768px) {
+    .error-list {
+        grid-template-columns: 1fr;
+    }
+    
+    .error-traceback {
+        font-size: 0.8em;
+    }
+    
+    .error-screenshot {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+/* Print Styles for Error Reports */
+@media print {
+    .error-item {
+        break-inside: avoid;
+    }
+    
+    .error-screenshot {
+        max-width: 500px;
+    }
+    
+    .error-traceback {
+        background: #f8f9fa !important;
+        color: #333 !important;
+        border: 1px solid #dee2e6;
+    }
+} 
