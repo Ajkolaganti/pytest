@@ -4,6 +4,7 @@ import pytest
 import requests
 from datetime import datetime
 from dotenv import load_dotenv
+import sys
 
 load_dotenv()
 
@@ -47,12 +48,17 @@ def check_api_health():
 
 # Run API health check before tests
 def pytest_configure(config):
+    """Configure test session."""
     if not check_api_health():
         pytest.exit("API health check failed. Skipping tests.")
     
+    # Initialize metadata if it doesn't exist
+    if not hasattr(config, '_metadata'):
+        config._metadata = {}
+    
     # Add environment info
     config._metadata['GraphQL API URL'] = os.getenv('API_URL')
-    config._metadata['Python Version'] = pytest.config.getoption('--version')
+    config._metadata['Python Version'] = sys.version
     config._metadata['Timestamp'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 # Custom CSS and JavaScript for the HTML report
