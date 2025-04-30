@@ -1,268 +1,17 @@
-git\newPytest\pytest> pytest
+ pytest
 ========================================================================================================== test session starts ==========================================================================================================
 platform win32 -- Python 3.11.9, pytest-8.0.0, pluggy-1.5.0
 rootdir: C:\Users\SaiKrishna\PycharmProjects\pytestgit\newPytest\pytest
 plugins: html-4.1.1, metadata-3.1.1
 collected 6 items
 
-test_graphql_queries.py FFFFF                                                                                                                                                                                                      [ 83%]
-tests\test_counterparties.py F                                                                                                                                                                                                     [100%]
+test_graphql_queries.py ..FFF                                                                                                                                                                                                      [ 83%]
+tests\test_counterparties.py .                                                                                                                                                                                                     [100%]
 
 =============================================================================================================== FAILURES ================================================================================================================
-____________________________________________________________________________________________ test_graphql_query[get_counterparties.graphql] _____________________________________________________________________________________________
-
-graphql_client = <conftest.GraphQLClient object at 0x000001DE5086A710>, load_query = <function load_query.<locals>._load_query at 0x000001DE52DC76A0>, query_file = 'get_counterparties.graphql'
-
-    @pytest.mark.parametrize('query_file', get_query_files())
-    def test_graphql_query(graphql_client, load_query, query_file):
-        """Test each GraphQL query file."""
-        # Load the query from file
-        query = load_query(query_file)
-
-        # Execute the query
-        try:
->           response = graphql_client.execute_query(query)
-
-test_graphql_queries.py:34:
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-conftest.py:100: in execute_query
-    response.raise_for_status()
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-
-self = <Response [401]>
-
-    def raise_for_status(self):
-        """Raises :class:`HTTPError`, if one occurred."""
-
-        http_error_msg = ""
-        if isinstance(self.reason, bytes):
-            # We attempt to decode utf-8 first because some servers
-            # choose to localize their reason strings. If the string
-            # isn't utf-8, we fall back to iso-8859-1 for all other
-            # encodings. (See PR #3538)
-            try:
-                reason = self.reason.decode("utf-8")
-            except UnicodeDecodeError:
-                reason = self.reason.decode("iso-8859-1")
-        else:
-            reason = self.reason
-
-        if 400 <= self.status_code < 500:
-            http_error_msg = (
-                f"{self.status_code} Client Error: {reason} for url: {self.url}"
-            )
-
-        elif 500 <= self.status_code < 600:
-            http_error_msg = (
-                f"{self.status_code} Server Error: {reason} for url: {self.url}"
-            )
-
-        if http_error_msg:
->           raise HTTPError(http_error_msg, response=self)
-E           requests.exceptions.HTTPError: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
-
-..\..\pytest\.venv\Lib\site-packages\requests\models.py:1021: HTTPError
-
-During handling of the above exception, another exception occurred:
-
-graphql_client = <conftest.GraphQLClient object at 0x000001DE5086A710>, load_query = <function load_query.<locals>._load_query at 0x000001DE52DC76A0>, query_file = 'get_counterparties.graphql'
-
-    @pytest.mark.parametrize('query_file', get_query_files())
-    def test_graphql_query(graphql_client, load_query, query_file):
-        """Test each GraphQL query file."""
-        # Load the query from file
-        query = load_query(query_file)
-
-        # Execute the query
-        try:
-            response = graphql_client.execute_query(query)
-
-            # Assert response structure
-            assert isinstance(response, dict), f"Response for {query_file} is not a dictionary"
-            assert 'data' in response or 'errors' in response, \
-                f"Response for {query_file} must contain either 'data' or 'errors'"
-
-            # Validate data if present
-            if 'data' in response:
-                assert isinstance(response['data'], dict), \
-                    f"'data' in response for {query_file} must be a dictionary"
-
-            # Validate errors if present
-            if 'errors' in response:
-                assert isinstance(response['errors'], list), \
-                    f"'errors' in response for {query_file} must be a list"
-
-        except Exception as e:
->           pytest.fail(f"Query {query_file} failed with error: {str(e)}")
-E           Failed: Query get_counterparties.graphql failed with error: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
-
-test_graphql_queries.py:52: Failed
---------------------------------------------------------------------------------------------------------- Captured stdout call ----------------------------------------------------------------------------------------------------------
-
-=== GraphQL Request ===
-URL: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
-Headers:
-User-Agent: python-requests/2.31.0
-Accept-Encoding: gzip, deflate
-Accept: */*
-Connection: keep-alive
-Authorization: <token-hidden>
-Content-Type: application/json
-
-Cookies:
-ARRAffinity: 7d577d29f8e00b2374ddb413016b2f6617c84445e3b963399a9d336135481e13
-ARRAffinitySameSite: 7d577d29f8e00b2374ddb413016b2f6617c84445e3b963399a9d336135481e13
-
-Request Payload:
-{
-  "query": "query {\n  counterparties(\n    first: null\n    after: null\n    last: null\n    before: null\n    where: null\n    order: null\n  ) {\n    totalCount\n    edges {\n      cursor\n      node {\n        aba\n        account
-Name\n        address1\n        address2\n        bankName\n        city\n        contactName\n        counterpartyEmailAddress\n        counterpartyId\n        counterpartyName\n        createdBy\n        createdDt\n        dda\n
-    departmentName\n        state\n        updatedBy\n        updatedDt\n        zip\n      }\n    }\n    nodes {\n      aba\n      accountName\n      address1\n      address2\n      bankName\n      city\n      contactName\n      coun
-terpartyEmailAddress\n      counterpartyId\n      counterpartyName\n      createdBy\n      createdDt\n      dda\n      departmentName\n      state\n      updatedBy\n      updatedDt\n      zip\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n      hasPreviousPage\n      startCursor\n    }\n  }\n}"
-}
-
-=== GraphQL Response ===
-Status Code: 401
-Response Headers:
-Content-Length: 0
-Date: Tue, 29 Apr 2025 23:50:49 GMT
-Server: Microsoft-IIS/10.0
-Request-Context: appId=cid-v1:59368e04-2e6f-4086-9672-604d4ac2de56
-X-Powered-By: ASP.NET
-
-Response Body:
-Raw response (not JSON):
-
-
-Request Error: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
-Raw error response:
-____________________________________________________________________________________________ test_graphql_query[get_expense_details.graphql] ____________________________________________________________________________________________
-
-graphql_client = <conftest.GraphQLClient object at 0x000001DE5086A710>, load_query = <function load_query.<locals>._load_query at 0x000001DE52E3FE20>, query_file = 'get_expense_details.graphql'
-
-    @pytest.mark.parametrize('query_file', get_query_files())
-    def test_graphql_query(graphql_client, load_query, query_file):
-        """Test each GraphQL query file."""
-        # Load the query from file
-        query = load_query(query_file)
-
-        # Execute the query
-        try:
->           response = graphql_client.execute_query(query)
-
-test_graphql_queries.py:34:
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-conftest.py:100: in execute_query
-    response.raise_for_status()
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-
-self = <Response [401]>
-
-    def raise_for_status(self):
-        """Raises :class:`HTTPError`, if one occurred."""
-
-        http_error_msg = ""
-        if isinstance(self.reason, bytes):
-            # We attempt to decode utf-8 first because some servers
-            # choose to localize their reason strings. If the string
-            # isn't utf-8, we fall back to iso-8859-1 for all other
-            # encodings. (See PR #3538)
-            try:
-                reason = self.reason.decode("utf-8")
-            except UnicodeDecodeError:
-                reason = self.reason.decode("iso-8859-1")
-        else:
-            reason = self.reason
-
-        if 400 <= self.status_code < 500:
-            http_error_msg = (
-                f"{self.status_code} Client Error: {reason} for url: {self.url}"
-            )
-
-        elif 500 <= self.status_code < 600:
-            http_error_msg = (
-                f"{self.status_code} Server Error: {reason} for url: {self.url}"
-            )
-
-        if http_error_msg:
->           raise HTTPError(http_error_msg, response=self)
-E           requests.exceptions.HTTPError: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
-
-..\..\pytest\.venv\Lib\site-packages\requests\models.py:1021: HTTPError
-
-During handling of the above exception, another exception occurred:
-
-graphql_client = <conftest.GraphQLClient object at 0x000001DE5086A710>, load_query = <function load_query.<locals>._load_query at 0x000001DE52E3FE20>, query_file = 'get_expense_details.graphql'
-
-    @pytest.mark.parametrize('query_file', get_query_files())
-    def test_graphql_query(graphql_client, load_query, query_file):
-        """Test each GraphQL query file."""
-        # Load the query from file
-        query = load_query(query_file)
-
-        # Execute the query
-        try:
-            response = graphql_client.execute_query(query)
-
-            # Assert response structure
-            assert isinstance(response, dict), f"Response for {query_file} is not a dictionary"
-            assert 'data' in response or 'errors' in response, \
-                f"Response for {query_file} must contain either 'data' or 'errors'"
-
-            # Validate data if present
-            if 'data' in response:
-                assert isinstance(response['data'], dict), \
-                    f"'data' in response for {query_file} must be a dictionary"
-
-            # Validate errors if present
-            if 'errors' in response:
-                assert isinstance(response['errors'], list), \
-                    f"'errors' in response for {query_file} must be a list"
-
-        except Exception as e:
->           pytest.fail(f"Query {query_file} failed with error: {str(e)}")
-E           Failed: Query get_expense_details.graphql failed with error: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
-
-test_graphql_queries.py:52: Failed
---------------------------------------------------------------------------------------------------------- Captured stdout call ----------------------------------------------------------------------------------------------------------
-
-=== GraphQL Request ===
-URL: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
-Headers:
-User-Agent: python-requests/2.31.0
-Accept-Encoding: gzip, deflate
-Accept: */*
-Connection: keep-alive
-Authorization: <token-hidden>
-Content-Type: application/json
-
-Cookies:
-ARRAffinity: 7d577d29f8e00b2374ddb413016b2f6617c84445e3b963399a9d336135481e13
-ARRAffinitySameSite: 7d577d29f8e00b2374ddb413016b2f6617c84445e3b963399a9d336135481e13
-
-Request Payload:
-{
-  "query": "query GetExpenseDetails {\n  expenseDetails(\n    invoiceDate: null\n    first: null\n    after: null\n    last: null\n    before: null\n    where: null\n    order: null\n  ) {\n    totalCount\n  }\n}"
-}
-
-=== GraphQL Response ===
-Status Code: 401
-Response Headers:
-Content-Length: 0
-Date: Tue, 29 Apr 2025 23:50:50 GMT
-Server: Microsoft-IIS/10.0
-Request-Context: appId=cid-v1:59368e04-2e6f-4086-9672-604d4ac2de56
-X-Powered-By: ASP.NET
-
-Response Body:
-Raw response (not JSON):
-
-
-Request Error: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
-Raw error response:
 _______________________________________________________________________________________________ test_graphql_query[get_inventory.graphql] _______________________________________________________________________________________________
 
-graphql_client = <conftest.GraphQLClient object at 0x000001DE5086A710>, load_query = <function load_query.<locals>._load_query at 0x000001DE52DC74C0>, query_file = 'get_inventory.graphql'
+graphql_client = <conftest.GraphQLClient object at 0x0000024871757CD0>, load_query = <function load_query.<locals>._load_query at 0x00000248717674C0>, query_file = 'get_inventory.graphql'
 
     @pytest.mark.parametrize('query_file', get_query_files())
     def test_graphql_query(graphql_client, load_query, query_file):
@@ -280,7 +29,7 @@ conftest.py:100: in execute_query
     response.raise_for_status()
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-self = <Response [401]>
+self = <Response [400]>
 
     def raise_for_status(self):
         """Raises :class:`HTTPError`, if one occurred."""
@@ -310,13 +59,13 @@ self = <Response [401]>
 
         if http_error_msg:
 >           raise HTTPError(http_error_msg, response=self)
-E           requests.exceptions.HTTPError: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
+E           requests.exceptions.HTTPError: 400 Client Error: Bad Request for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
 
 ..\..\pytest\.venv\Lib\site-packages\requests\models.py:1021: HTTPError
 
 During handling of the above exception, another exception occurred:
 
-graphql_client = <conftest.GraphQLClient object at 0x000001DE5086A710>, load_query = <function load_query.<locals>._load_query at 0x000001DE52DC74C0>, query_file = 'get_inventory.graphql'
+graphql_client = <conftest.GraphQLClient object at 0x0000024871757CD0>, load_query = <function load_query.<locals>._load_query at 0x00000248717674C0>, query_file = 'get_inventory.graphql'
 
     @pytest.mark.parametrize('query_file', get_query_files())
     def test_graphql_query(graphql_client, load_query, query_file):
@@ -345,7 +94,7 @@ graphql_client = <conftest.GraphQLClient object at 0x000001DE5086A710>, load_que
 
         except Exception as e:
 >           pytest.fail(f"Query {query_file} failed with error: {str(e)}")
-E           Failed: Query get_inventory.graphql failed with error: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
+E           Failed: Query get_inventory.graphql failed with error: 400 Client Error: Bad Request for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
 
 test_graphql_queries.py:52: Failed
 --------------------------------------------------------------------------------------------------------- Captured stdout call ----------------------------------------------------------------------------------------------------------
@@ -370,23 +119,65 @@ Request Payload:
 }
 
 === GraphQL Response ===
-Status Code: 401
+Status Code: 400
 Response Headers:
-Content-Length: 0
-Date: Tue, 29 Apr 2025 23:50:50 GMT
+Content-Type: application/graphql-response+json; charset=utf-8
+Date: Tue, 29 Apr 2025 23:58:30 GMT
 Server: Microsoft-IIS/10.0
+Transfer-Encoding: chunked
+Strict-Transport-Security: max-age=2592000
 Request-Context: appId=cid-v1:59368e04-2e6f-4086-9672-604d4ac2de56
 X-Powered-By: ASP.NET
 
 Response Body:
-Raw response (not JSON):
+{
+  "errors": [
+    {
+      "message": "The field `inventory` does not exist on the type `Query`.",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "extensions": {
+        "type": "Query",
+        "field": "inventory",
+        "responseName": "inventory",
+        "specifiedBy": "https://spec.graphql.org/October2021/#sec-Field-Selections-on-Objects-Interfaces-and-Unions-Types"
+      }
+    }
+  ]
+}
 
+GraphQL Errors:
+- The field `inventory` does not exist on the type `Query`.
+  Location: [{'line': 2, 'column': 3}]
 
-Request Error: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
-Raw error response:
+Request Error: 400 Client Error: Bad Request for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
+Error details:
+{
+  "errors": [
+    {
+      "message": "The field `inventory` does not exist on the type `Query`.",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "extensions": {
+        "type": "Query",
+        "field": "inventory",
+        "responseName": "inventory",
+        "specifiedBy": "https://spec.graphql.org/October2021/#sec-Field-Selections-on-Objects-Interfaces-and-Unions-Types"
+      }
+    }
+  ]
+}
 _________________________________________________________________________________________________ test_graphql_query[get_user.graphql] __________________________________________________________________________________________________
 
-graphql_client = <conftest.GraphQLClient object at 0x000001DE5086A710>, load_query = <function load_query.<locals>._load_query at 0x000001DE52E0CAE0>, query_file = 'get_user.graphql'
+graphql_client = <conftest.GraphQLClient object at 0x0000024871757CD0>, load_query = <function load_query.<locals>._load_query at 0x000002487179CE00>, query_file = 'get_user.graphql'
 
     @pytest.mark.parametrize('query_file', get_query_files())
     def test_graphql_query(graphql_client, load_query, query_file):
@@ -404,7 +195,7 @@ conftest.py:100: in execute_query
     response.raise_for_status()
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-self = <Response [401]>
+self = <Response [400]>
 
     def raise_for_status(self):
         """Raises :class:`HTTPError`, if one occurred."""
@@ -434,13 +225,13 @@ self = <Response [401]>
 
         if http_error_msg:
 >           raise HTTPError(http_error_msg, response=self)
-E           requests.exceptions.HTTPError: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
+E           requests.exceptions.HTTPError: 400 Client Error: Bad Request for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
 
 ..\..\pytest\.venv\Lib\site-packages\requests\models.py:1021: HTTPError
 
 During handling of the above exception, another exception occurred:
 
-graphql_client = <conftest.GraphQLClient object at 0x000001DE5086A710>, load_query = <function load_query.<locals>._load_query at 0x000001DE52E0CAE0>, query_file = 'get_user.graphql'
+graphql_client = <conftest.GraphQLClient object at 0x0000024871757CD0>, load_query = <function load_query.<locals>._load_query at 0x000002487179CE00>, query_file = 'get_user.graphql'
 
     @pytest.mark.parametrize('query_file', get_query_files())
     def test_graphql_query(graphql_client, load_query, query_file):
@@ -469,7 +260,7 @@ graphql_client = <conftest.GraphQLClient object at 0x000001DE5086A710>, load_que
 
         except Exception as e:
 >           pytest.fail(f"Query {query_file} failed with error: {str(e)}")
-E           Failed: Query get_user.graphql failed with error: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
+E           Failed: Query get_user.graphql failed with error: 400 Client Error: Bad Request for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
 
 test_graphql_queries.py:52: Failed
 --------------------------------------------------------------------------------------------------------- Captured stdout call ----------------------------------------------------------------------------------------------------------
@@ -494,23 +285,65 @@ Request Payload:
 }
 
 === GraphQL Response ===
-Status Code: 401
+Status Code: 400
 Response Headers:
-Content-Length: 0
-Date: Tue, 29 Apr 2025 23:50:50 GMT
+Content-Type: application/graphql-response+json; charset=utf-8
+Date: Tue, 29 Apr 2025 23:58:32 GMT
 Server: Microsoft-IIS/10.0
+Transfer-Encoding: chunked
+Strict-Transport-Security: max-age=2592000
 Request-Context: appId=cid-v1:59368e04-2e6f-4086-9672-604d4ac2de56
 X-Powered-By: ASP.NET
 
 Response Body:
-Raw response (not JSON):
+{
+  "errors": [
+    {
+      "message": "The field `user` does not exist on the type `Query`.",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "extensions": {
+        "type": "Query",
+        "field": "user",
+        "responseName": "user",
+        "specifiedBy": "https://spec.graphql.org/October2021/#sec-Field-Selections-on-Objects-Interfaces-and-Unions-Types"
+      }
+    }
+  ]
+}
 
+GraphQL Errors:
+- The field `user` does not exist on the type `Query`.
+  Location: [{'line': 2, 'column': 3}]
 
-Request Error: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
-Raw error response:
+Request Error: 400 Client Error: Bad Request for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
+Error details:
+{
+  "errors": [
+    {
+      "message": "The field `user` does not exist on the type `Query`.",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "extensions": {
+        "type": "Query",
+        "field": "user",
+        "responseName": "user",
+        "specifiedBy": "https://spec.graphql.org/October2021/#sec-Field-Selections-on-Objects-Interfaces-and-Unions-Types"
+      }
+    }
+  ]
+}
 __________________________________________________________________________________________________________ test_invalid_query ___________________________________________________________________________________________________________
 
-graphql_client = <conftest.GraphQLClient object at 0x000001DE5086A710>
+graphql_client = <conftest.GraphQLClient object at 0x0000024871757CD0>
 
     def test_invalid_query(graphql_client):
         """Test handling of invalid query."""
@@ -524,7 +357,7 @@ conftest.py:100: in execute_query
     response.raise_for_status()
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-self = <Response [401]>
+self = <Response [400]>
 
     def raise_for_status(self):
         """Raises :class:`HTTPError`, if one occurred."""
@@ -554,7 +387,7 @@ self = <Response [401]>
 
         if http_error_msg:
 >           raise HTTPError(http_error_msg, response=self)
-E           requests.exceptions.HTTPError: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
+E           requests.exceptions.HTTPError: 400 Client Error: Bad Request for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
 
 ..\..\pytest\.venv\Lib\site-packages\requests\models.py:1021: HTTPError
 --------------------------------------------------------------------------------------------------------- Captured stdout call ----------------------------------------------------------------------------------------------------------
@@ -579,109 +412,62 @@ Request Payload:
 }
 
 === GraphQL Response ===
-Status Code: 401
+Status Code: 400
 Response Headers:
-Content-Length: 0
-Date: Tue, 29 Apr 2025 23:50:50 GMT
+Content-Type: application/graphql-response+json; charset=utf-8
+Date: Tue, 29 Apr 2025 23:58:32 GMT
 Server: Microsoft-IIS/10.0
+Transfer-Encoding: chunked
+Strict-Transport-Security: max-age=2592000
 Request-Context: appId=cid-v1:59368e04-2e6f-4086-9672-604d4ac2de56
 X-Powered-By: ASP.NET
 
 Response Body:
-Raw response (not JSON):
-
-
-Request Error: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
-Raw error response:
-________________________________________________________________________________________________________ test_get_counterparties ________________________________________________________________________________________________________
-
-graphql_client = <conftest.GraphQLClient object at 0x000001DE5086A710>
-
-    def test_get_counterparties(graphql_client):
-        """Test retrieving counterparties list"""
-        # Execute the query
->       response = graphql_client.execute_query_file('graphql_queries/get_counterparties.graphql')
-
-tests\test_counterparties.py:7:
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-conftest.py:118: in execute_query_file
-    return self.execute_query(query)
-conftest.py:100: in execute_query
-    response.raise_for_status()
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-
-self = <Response [401]>
-
-    def raise_for_status(self):
-        """Raises :class:`HTTPError`, if one occurred."""
-
-        http_error_msg = ""
-        if isinstance(self.reason, bytes):
-            # We attempt to decode utf-8 first because some servers
-            # choose to localize their reason strings. If the string
-            # isn't utf-8, we fall back to iso-8859-1 for all other
-            # encodings. (See PR #3538)
-            try:
-                reason = self.reason.decode("utf-8")
-            except UnicodeDecodeError:
-                reason = self.reason.decode("iso-8859-1")
-        else:
-            reason = self.reason
-
-        if 400 <= self.status_code < 500:
-            http_error_msg = (
-                f"{self.status_code} Client Error: {reason} for url: {self.url}"
-            )
-
-        elif 500 <= self.status_code < 600:
-            http_error_msg = (
-                f"{self.status_code} Server Error: {reason} for url: {self.url}"
-            )
-
-        if http_error_msg:
->           raise HTTPError(http_error_msg, response=self)
-E           requests.exceptions.HTTPError: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
-
-..\..\pytest\.venv\Lib\site-packages\requests\models.py:1021: HTTPError
---------------------------------------------------------------------------------------------------------- Captured stdout call ----------------------------------------------------------------------------------------------------------
-
-=== GraphQL Request ===
-URL: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
-Headers:
-User-Agent: python-requests/2.31.0
-Accept-Encoding: gzip, deflate
-Accept: */*
-Connection: keep-alive
-Authorization: <token-hidden>
-Content-Type: application/json
-
-Cookies:
-ARRAffinity: 7d577d29f8e00b2374ddb413016b2f6617c84445e3b963399a9d336135481e13
-ARRAffinitySameSite: 7d577d29f8e00b2374ddb413016b2f6617c84445e3b963399a9d336135481e13
-
-Request Payload:
 {
-  "query": "query {\n  counterparties(\n    first: null\n    after: null\n    last: null\n    before: null\n    where: null\n    order: null\n  ) {\n    totalCount\n    edges {\n      cursor\n      node {\n        aba\n        account
-Name\n        address1\n        address2\n        bankName\n        city\n        contactName\n        counterpartyEmailAddress\n        counterpartyId\n        counterpartyName\n        createdBy\n        createdDt\n        dda\n
-    departmentName\n        state\n        updatedBy\n        updatedDt\n        zip\n      }\n    }\n    nodes {\n      aba\n      accountName\n      address1\n      address2\n      bankName\n      city\n      contactName\n      coun
-terpartyEmailAddress\n      counterpartyId\n      counterpartyName\n      createdBy\n      createdDt\n      dda\n      departmentName\n      state\n      updatedBy\n      updatedDt\n      zip\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n      hasPreviousPage\n      startCursor\n    }\n  }\n}"
+  "errors": [
+    {
+      "message": "The field `invalid` does not exist on the type `Query`.",
+      "locations": [
+        {
+          "line": 1,
+          "column": 9
+        }
+      ],
+      "extensions": {
+        "type": "Query",
+        "field": "invalid",
+        "responseName": "invalid",
+        "specifiedBy": "https://spec.graphql.org/October2021/#sec-Field-Selections-on-Objects-Interfaces-and-Unions-Types"
+      }
+    }
+  ]
 }
 
-=== GraphQL Response ===
-Status Code: 401
-Response Headers:
-Content-Length: 0
-Date: Tue, 29 Apr 2025 23:50:50 GMT
-Server: Microsoft-IIS/10.0
-Request-Context: appId=cid-v1:59368e04-2e6f-4086-9672-604d4ac2de56
-X-Powered-By: ASP.NET
+GraphQL Errors:
+- The field `invalid` does not exist on the type `Query`.
+  Location: [{'line': 1, 'column': 9}]
 
-Response Body:
-Raw response (not JSON):
-
-
-Request Error: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
-Raw error response:
+Request Error: 400 Client Error: Bad Request for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
+Error details:
+{
+  "errors": [
+    {
+      "message": "The field `invalid` does not exist on the type `Query`.",
+      "locations": [
+        {
+          "line": 1,
+          "column": 9
+        }
+      ],
+      "extensions": {
+        "type": "Query",
+        "field": "invalid",
+        "responseName": "invalid",
+        "specifiedBy": "https://spec.graphql.org/October2021/#sec-Field-Selections-on-Objects-Interfaces-and-Unions-Types"
+      }
+    }
+  ]
+}
 =========================================================================================================== warnings summary ============================================================================================================
 test_graphql_queries.py::test_graphql_query[get_expense_details.graphql]
 test_graphql_queries.py::test_graphql_query[get_inventory.graphql]
@@ -693,11 +479,8 @@ tests/test_counterparties.py::test_get_counterparties
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
 ======================================================================================================== short test summary info ========================================================================================================
-FAILED test_graphql_queries.py::test_graphql_query[get_counterparties.graphql] - Failed: Query get_counterparties.graphql failed with error: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
-FAILED test_graphql_queries.py::test_graphql_query[get_expense_details.graphql] - Failed: Query get_expense_details.graphql failed with error: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
-FAILED test_graphql_queries.py::test_graphql_query[get_inventory.graphql] - Failed: Query get_inventory.graphql failed with error: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
-FAILED test_graphql_queries.py::test_graphql_query[get_user.graphql] - Failed: Query get_user.graphql failed with error: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
-FAILED test_graphql_queries.py::test_invalid_query - requests.exceptions.HTTPError: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
-FAILED tests/test_counterparties.py::test_get_counterparties - requests.exceptions.HTTPError: 401 Client Error: Unauthorized for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
-===================================================================================================== 6 failed, 5 warnings in 2.87s =====================================================================================================
+FAILED test_graphql_queries.py::test_graphql_query[get_inventory.graphql] - Failed: Query get_inventory.graphql failed with error: 400 Client Error: Bad Request for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
+FAILED test_graphql_queries.py::test_graphql_query[get_user.graphql] - Failed: Query get_user.graphql failed with error: 400 Client Error: Bad Request for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
+FAILED test_graphql_queries.py::test_invalid_query - requests.exceptions.HTTPError: 400 Client Error: Bad Request for url: https://lv-sub-inv-dev-appsvc.azurewebsites.net/subinvapi/graphql/
+================================================================================================ 3 failed, 3 passed, 5 warnings in 2.83s ================================================================================================
 (.venv) PS C:\Users\SaiKrishna\PycharmProjects\pytestgit\newPytest\pytest>
