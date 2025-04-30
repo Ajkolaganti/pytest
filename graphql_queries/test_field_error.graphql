@@ -1,0 +1,11 @@
+query TestFieldError {
+  counterparties {
+    totalCount
+    non_existent_field
+    edges {
+      node {
+        counterpartyId
+      }
+    }
+  }
+} 

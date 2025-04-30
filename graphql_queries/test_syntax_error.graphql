@@ -1,0 +1,6 @@
+query BadQuery {
+  counterparties(first: "wrong_type") {
+    totalCount
+    missing_brace
+  }
+} 

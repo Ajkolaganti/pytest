@@ -60,6 +60,27 @@ def pytest_configure(config):
     config._metadata['Python Version'] = sys.version
     config._metadata['Timestamp'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
+@pytest.hookimpl(hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    """Capture test execution data for reporting."""
+    outcome = yield
+    report = outcome.get_result()
+    
+    if report.when == "call":
+        # Add test execution data
+        if hasattr(item, '_request_data'):
+            report.request_data = item._request_data
+        if hasattr(item, '_response_data'):
+            report.response_data = item._response_data
+            
+        # Add GraphQL specific data
+        if hasattr(request_data, 'request_payload'):
+            report.graphql_query = json.dumps(request_data.request_payload, indent=2)
+        if hasattr(request_data, 'response_body'):
+            report.response_body = json.dumps(request_data.response_body, indent=2)
+        if hasattr(request_data, 'graphql_errors'):
+            report.graphql_errors = request_data.graphql_errors
+
 @pytest.hookimpl(optionalhook=True)
 def pytest_html_report_title(report):
     """Set the title for the HTML report."""
@@ -69,26 +90,58 @@ def pytest_html_report_title(report):
 def pytest_html_results_table_header(cells):
     """Add custom column headers to the HTML report."""
     cells.insert(2, "<th>Response Time</th>")
-    cells.insert(3, "<th>Query</th>")
-    cells.insert(4, "<th>Schema</th>")
+    cells.insert(3, "<th>GraphQL Query</th>")
+    cells.insert(4, "<th>Response</th>")
+    cells.insert(5, "<th>Errors</th>")
 
 @pytest.hookimpl(optionalhook=True)
 def pytest_html_results_table_row(report, cells):
     """Add custom row data to the HTML report."""
+    # Response Time
     if hasattr(report, "response_time"):
         cells.insert(2, f"<td>{report.response_time:.2f}s</td>")
     else:
         cells.insert(2, "<td>N/A</td>")
     
+    # GraphQL Query
     if hasattr(report, "graphql_query"):
-        cells.insert(3, f"<td><pre>{report.graphql_query}</pre></td>")
+        cells.insert(3, f"<td><pre class='graphql-query'>{report.graphql_query}</pre></td>")
     else:
         cells.insert(3, "<td>N/A</td>")
     
-    if hasattr(report, "schema_validation"):
-        cells.insert(4, f"<td>{report.schema_validation}</td>")
+    # Response
+    if hasattr(report, "response_body"):
+        cells.insert(4, f"<td><pre class='response-body'>{report.response_body}</pre></td>")
     else:
         cells.insert(4, "<td>N/A</td>")
+    
+    # Errors
+    if hasattr(report, "graphql_errors") and report.graphql_errors:
+        error_html = "<td><div class='error-details'>"
+        for error in report.graphql_errors:
+            error_html += f"<pre>{json.dumps(error, indent=2)}</pre>"
+        error_html += "</div></td>"
+        cells.insert(5, error_html)
+    else:
+        cells.insert(5, "<td>None</td>")
+
+@pytest.hookimpl(optionalhook=True)
+def pytest_html_results_summary(prefix, summary, postfix):
+    """Add custom summary information to the report."""
+    if hasattr(pytest, 'test_metrics'):
+        metrics = pytest.test_metrics
+        summary.extend([
+            "<div class='summary-section'>",
+            "<h2>Test Execution Summary</h2>",
+            "<table>",
+            f"<tr><td>Total Tests:</td><td>{metrics.get('total', 0)}</td></tr>",
+            f"<tr><td>Passed:</td><td>{metrics.get('passed', 0)}</td></tr>",
+            f"<tr><td>Failed:</td><td>{metrics.get('failed', 0)}</td></tr>",
+            f"<tr><td>Skipped:</td><td>{metrics.get('skipped', 0)}</td></tr>",
+            f"<tr><td>Average Response Time:</td><td>{metrics.get('avg_response_time', 0):.2f}s</td></tr>",
+            "</table>",
+            "</div>"
+        ])
 
 # Store request/response data for reporting
 class GraphQLRequestData:
@@ -254,51 +307,4 @@ def load_query():
         query_path = os.path.join('graphql_queries', filename)
         with open(query_path, 'r') as f:
             return f.read().strip()
-    return _load_query
-
-@pytest.hookimpl(hookwrapper=True)
-def pytest_runtest_makereport(item, call):
-    outcome = yield
-    report = outcome.get_result()
-    
-    # Add extra information to HTML report for test cases
-    if report.when == "call":
-        # Add request/response data if available
-        if hasattr(request_data, 'request_payload'):
-            report.extra = []
-            
-            # Add request details
-            if request_data.request_headers:
-                report.extra.append({
-                    'name': 'Request Headers',
-                    'content': json.dumps(request_data.request_headers, indent=2),
-                    'format': 'json'
-                })
-            
-            if request_data.request_payload:
-                report.extra.append({
-                    'name': 'Request Payload',
-                    'content': json.dumps(request_data.request_payload, indent=2),
-                    'format': 'json'
-                })
-            
-            # Add response details
-            if request_data.response_status:
-                report.extra.append({
-                    'name': 'Response Status',
-                    'content': str(request_data.response_status)
-                })
-            
-            if request_data.response_body:
-                report.extra.append({
-                    'name': 'Response Body',
-                    'content': json.dumps(request_data.response_body, indent=2) if isinstance(request_data.response_body, (dict, list)) else str(request_data.response_body),
-                    'format': 'json' if isinstance(request_data.response_body, (dict, list)) else 'text'
-                })
-            
-            if request_data.graphql_errors:
-                report.extra.append({
-                    'name': 'GraphQL Errors',
-                    'content': json.dumps(request_data.graphql_errors, indent=2),
-                    'format': 'json'
-                }) 
+    return _load_query 

@@ -1,12 +1,5 @@
-{
-  counterparties(
-    first: null
-    after: null
-    last: null
-    before: null
-    where: null
-    order: null
-  ) {
+query GetCounterparties {
+  counterparties(first: 10) {
     totalCount
     edges {
       cursor
@@ -30,26 +23,6 @@
         updatedDt
         zip
       }
-    }
-    nodes {
-      aba
-      accountName
-      address1
-      address2
-      bankName
-      city
-      contactName
-      counterpartyEmailAddress
-      counterpartyId
-      counterpartyName
-      createdBy
-      createdDt
-      dda
-      departmentName
-      state
-      updatedBy
-      updatedDt
-      zip
     }
     pageInfo {
       endCursor
