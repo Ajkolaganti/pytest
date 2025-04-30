@@ -93,12 +93,18 @@ class GraphQLClient:
                         if 'path' in error:
                             print(f"  Path: {error['path']}")
                 
+                # If we got a JSON response with GraphQL errors, that's valid
+                if response.status_code == 400 and 'errors' in response_json:
+                    return response_json
+                    
+                # For other status codes, raise the HTTP error
+                response.raise_for_status()
+                return response_json
+                
             except json.JSONDecodeError:
                 print("Raw response (not JSON):")
                 print(response.text)
-            
-            response.raise_for_status()
-            return response.json()
+                response.raise_for_status()
             
         except requests.exceptions.RequestException as e:
             print(f"\nRequest Error: {str(e)}")
